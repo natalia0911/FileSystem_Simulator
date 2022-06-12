@@ -5,6 +5,7 @@
  */
 package filesystem_application;
 
+
 /**
  *
  * @author Natalia
@@ -14,8 +15,11 @@ public class FileSystem_Application {
     /**
      * @param args the command line arguments
      */
+    static FileSystem_Window window;
     public static void main(String[] args) {
         // TODO code application logic here
+        window = new FileSystem_Window();
+        window.setVisible (true);
     }
     
 }
