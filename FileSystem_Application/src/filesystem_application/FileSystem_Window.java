@@ -23,6 +23,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
     
     public FileSystem_Window() {
         initComponents();
+        DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+        //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+        //model.insertNodeInto(new DefaultMutableTreeNode("another_child"), root, root.getChildCount());
         
     }
 
@@ -167,7 +170,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
             System.out.println(newFile);
             System.out.println(selectedNode);
             System.out.println(selectedNode.getChildCount());
-            selectedNode.add(newFile);
+            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
             model.insertNodeInto(newFile, selectedNode, selectedNode.getChildCount());
         }
     }//GEN-LAST:event_btnCreateFileActionPerformed
