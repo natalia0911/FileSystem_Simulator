@@ -15,6 +15,12 @@ public class File {
     protected String path; // file direcrion
     protected ArrayList<Integer> sectors; // sectors in memory
     
+    public File(String name, String path){
+        this.name = name;
+        this.path = path;
+        this.sectors = null;
+    }
+        
     public File(String name, String path, ArrayList<Integer> sectors){
         this.name = name;
         this.path = path;
