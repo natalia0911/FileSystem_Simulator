@@ -127,7 +127,7 @@ public class Disco {
             espacios = (JSONArray) sector.get("espacios");
             if (espacios.get(0).getClass().isInstance(variable))cantVacios++;
         }
-        System.out.println("Cantidad vacios: "+cantVacios);
+        //System.out.println("Cantidad vacios: "+cantVacios);
         return cantVacios;
     }
     
@@ -159,22 +159,22 @@ public class Disco {
         int sectContenido = contenido.length()/cantEspacios;
         if (contenido.length()%cantEspacios!=0) sectContenido++;
         
-        System.out.println("sectContenido: "+sectContenido);
-        System.out.println("Tamaño: "+file.sectors.size());
+        //System.out.println("sectContenido: "+sectContenido);
+        //System.out.println("Tamaño: "+file.sectors.size());
         //Si no cabe el contenido, no lo agrega.
         if ((file.sectors.size()+sectoresVacios())<sectContenido){
-            System.out.println("Primero");
+            //System.out.println("Primero");
             return;
         }else if (file.sectors.size()<sectContenido){
             file = updateSectores(file, sectContenido, true);
-            System.out.println("Segundo");
+            //System.out.println("Segundo");
         }else{
             file = updateSectores(file, sectContenido, false);
-            System.out.println("Tercero");
+            //System.out.println("Tercero");
         }
         
-        System.out.println("Tamaño: "+file.sectors.size());
-        System.out.println("Sectores File: "+file.sectors.toString());
+        //System.out.println("Tamaño: "+file.sectors.size());
+        //System.out.println("Sectores File: "+file.sectors.toString());
         
         for(int i=0;i<file.sectors.size();i++){
             if ((i*cantEspacios+cantEspacios)>contenido.length()){
