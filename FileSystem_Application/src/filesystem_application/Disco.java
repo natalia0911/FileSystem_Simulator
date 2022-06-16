@@ -20,6 +20,9 @@ import org.json.simple.parser.ParseException;
 public class Disco {
     
     private static final String FILENAME = "Disco.json";
+    private static int cantSectores = 0;
+    private static int cantEspacios = 0;
+    
     protected static int indice = 0;
 
     public static void escribirDisco(JSONObject disco, String filename) {
@@ -73,6 +76,9 @@ public class Disco {
         
         escribirDisco(disco, FILENAME);
         
+        Disco.cantSectores=cantSectores;
+        Disco.cantEspacios=cantEspacios;
+        
     }
     
     public static void vaciarSector(int idSector) {
@@ -88,10 +94,53 @@ public class Disco {
                 
     }
     
+    public static void modificarSector(int idSector, String contenido){
+        if (contenido.length()>cantEspacios) return;
+        
+        JSONObject disco = obtenerDisco(FILENAME);
+        JSONArray sectores = (JSONArray) disco.get("Sectores");        
+        JSONObject sector = new JSONObject();
+        sector.put("idSector", idSector);
+        
+        JSONArray espacios = new JSONArray();
+        for(int i=0;i<cantEspacios;i++){
+            if (i<contenido.length()) espacios.add(contenido.substring(i, i+1));
+            else espacios.add(0);
+        }
+        sector.put("espacios", espacios);
+        sectores.set(idSector, sector);
+        
+        disco.put("Sectores", sectores);
+        escribirDisco(disco, FILENAME);
+        
+    }
+    
+    public static void modificarContenido(File file, String contenido){
+        int sectContenido = contenido.length()/cantEspacios;
+        if (contenido.length()%cantEspacios!=0) sectContenido++;
+        
+        /*
+        verificar que cabe(en los que ya tengo y en los espacios totales).
+            dividir el contenido en pequeños tamaños
+            recorrer los indices que ya tengo y sobre escribir.
+            SI NECESITO MÁS
+                pedir el primer espacio disponible
+                agregar el contenido
+                
+            SI NO NECESITO MÁS
+                vaciar los que me sobraron
+        
+            modificar la lista de indices.
+        */
+        
+    }
+    
     public static void main(String[] args) throws Exception {
         
-        inicializarDisco(4,2);
-        vaciarSector(2);
+        //inicializarDisco(3,7);
+        //vaciarSector(2);
+        //modificarSector(1,"Jacob");
+
         
     }
 
