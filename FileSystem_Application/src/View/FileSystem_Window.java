@@ -11,6 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import Controller.Disco;
 
 
 
@@ -25,6 +26,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
      */
     private DefaultTreeModel model;
     private DefaultMutableTreeNode selectedNode;
+    private Disco discController;
     
     public FileSystem_Window() {
         initComponents();
@@ -215,6 +217,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jLabel2.setText("Sector's size");
 
         btnDisk.setText("Prepare disk");
+        btnDisk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiskActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -364,6 +371,13 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private void txtCurrentDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCurrentDirActionPerformed
+
+    private void btnDiskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiskActionPerformed
+        String sectors =txtnumberOfSectors.getText();
+        String sector_size = txtSectorSize.getText();
+        discController.inicializarDisco(Integer.parseInt(sectors),Integer.parseInt(sector_size));
+        discController.createTxtFile();
+    }//GEN-LAST:event_btnDiskActionPerformed
 
     private boolean isPossibleCreate(String filename){
        
