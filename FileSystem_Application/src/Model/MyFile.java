@@ -48,7 +48,7 @@ public class MyFile {
     public MyFile(String name, String path){
         this.name = name;
         this.path = path;
-        this.sectors = null;
+        this.sectors = new ArrayList<Integer>();
         this.text = "";
     }
         

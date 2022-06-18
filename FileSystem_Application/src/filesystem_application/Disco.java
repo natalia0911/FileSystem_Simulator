@@ -2,7 +2,9 @@
 package filesystem_application;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,30 +22,53 @@ import org.json.simple.parser.ParseException;
  */
 public class Disco {
     
-    private static final String FILENAME = "Disco.json";
+    private static final String FILENAME = "Disco.txt";
     private static int cantSectores = 0;
     private static int cantEspacios = 0;
     protected static int indice = 0;
+    private static JSONObject discoJson;
 
-    public static void escribirDisco(JSONObject disco, String filename) {
-        try {
-            Files.write(Paths.get(filename), disco.toJSONString().getBytes());
-            //System.out.println(disco.toJSONString());
-        } catch (IOException ex) {
-            Logger.getLogger(Disco.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public static String jsonToString(){
+        String contenido="";
+        
+        JSONArray sectores = (JSONArray) discoJson.get("Sectores");
+        JSONObject sector;
+        JSONArray espacios;
+        System.out.println("Sectores: "+cantSectores);
+        for(int i=0;i<cantSectores;i++){
+            sector = (JSONObject) sectores.get(i);
+            espacios = (JSONArray) sector.get("espacios");
+            System.out.println("Entra");
+            for (Object caracter: espacios){
+                System.out.println("caracter: "+caracter);
+                contenido = contenido + caracter;
+            }
+            
+            contenido = contenido + "\n";
         }
+        System.out.println("ANTES: jsonToString: "+discoJson);
+        System.out.println("DESPUES: jsonToString: "+contenido);
+        return contenido;
     }
     
-    public static JSONObject obtenerDisco(String filename) {       
-        try {
-            JSONObject disco = (JSONObject) new JSONParser().parse(new FileReader(filename));
-            return disco;
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Disco.class.getName()).log(Level.SEVERE, null, ex);
+    public static void escribirDisco(String filename) {
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try{
+            fichero = new FileWriter(FILENAME);
+            pw = new PrintWriter(fichero);
+            pw.print(jsonToString());
+            
+        } catch (IOException e) {
+        } finally {
+           try {
+               if (null != fichero) fichero.close();
+           } catch (IOException e2) {
+           }
         }
-        return null;
     }
-    
+      
     public static JSONObject generarSector(int cantidad){
         JSONObject sector = new JSONObject();
         sector.put("idSector", indice++);
@@ -67,37 +92,33 @@ public class Disco {
     }
     
     public static void inicializarDisco(int cantSectores, int cantEspacios){
-        JSONObject disco = new JSONObject();
+        discoJson = new JSONObject();
         JSONArray sectores = new JSONArray();
         
         for(int i=0;i<cantSectores;i++) sectores.add(generarSector(cantEspacios));
-        disco.put("Sectores", sectores);
-        
-        escribirDisco(disco, FILENAME);
+        discoJson.put("Sectores", sectores);
         
         Disco.cantSectores=cantSectores;
         Disco.cantEspacios=cantEspacios;
         
+        escribirDisco(FILENAME);
+        
     }
     
     public static void vaciarSector(int idSector) {
-        JSONObject disco = obtenerDisco(FILENAME);
-        JSONArray sectores = (JSONArray) disco.get("Sectores");
+        JSONArray sectores = (JSONArray) discoJson.get("Sectores");
         JSONObject sector = (JSONObject) sectores.get(idSector);
         JSONArray espacios = (JSONArray) sector.get("espacios");
         
         sectores.set(idSector, limpiarSector(idSector,espacios.size()));
         
-        disco.put("Sectores", sectores);
-        escribirDisco(disco, FILENAME);
-                
+        discoJson.put("Sectores", sectores);                
     }
     
     public static void modificarSector(int idSector, String contenido){
         if (contenido.length()>cantEspacios) return;
         
-        JSONObject disco = obtenerDisco(FILENAME);
-        JSONArray sectores = (JSONArray) disco.get("Sectores");        
+        JSONArray sectores = (JSONArray) discoJson.get("Sectores");        
         JSONObject sector = new JSONObject();
         sector.put("idSector", idSector);
         
@@ -109,34 +130,32 @@ public class Disco {
         sector.put("espacios", espacios);
         sectores.set(idSector, sector);
         
-        disco.put("Sectores", sectores);
-        escribirDisco(disco, FILENAME);
-        
+        discoJson.put("Sectores", sectores);        
     }
     
     public static int sectoresVacios(){
-        JSONObject disco = obtenerDisco(FILENAME);
-        JSONArray sectores = (JSONArray) disco.get("Sectores");
+        JSONArray sectores = (JSONArray) discoJson.get("Sectores");
         JSONObject sector;
         JSONArray espacios;
         int cantVacios=0;
-        long variable=0;
+        Integer variable=0;
+        
+        System.out.println("Sectores en Vacios: "+sectores);
         
         for(int i=0;i<cantSectores;i++){
             sector = (JSONObject) sectores.get(i);
             espacios = (JSONArray) sector.get("espacios");
             if (espacios.get(0).getClass().isInstance(variable))cantVacios++;
         }
-        //System.out.println("Cantidad vacios: "+cantVacios);
+        System.out.println("Cantidad vacios: "+cantVacios);
         return cantVacios;
     }
     
     public static File updateSectores(File file, int total, Boolean agregar){
-        JSONObject disco = obtenerDisco(FILENAME);
-        JSONArray sectores = (JSONArray) disco.get("Sectores");
+        JSONArray sectores = (JSONArray) discoJson.get("Sectores");
         JSONObject sector;
         JSONArray espacios;
-        long variable=0;
+        Integer variable=0;
         if (agregar){//Si hay que agregarle espacios nuevos
             for(int i=0;i<cantSectores;i++){
                 sector = (JSONObject) sectores.get(i);
@@ -150,31 +169,33 @@ public class Disco {
                 //lo elimina de la lista y lo vacía del disco.
                 vaciarSector(file.sectors.remove(file.sectors.size()-1));
             }
+            escribirDisco(FILENAME);
         }
         return file;
     }
        
     
     public static void modificarContenido(File file, String contenido){
+        System.out.println("-----------------------------------------------");
         int sectContenido = contenido.length()/cantEspacios;
         if (contenido.length()%cantEspacios!=0) sectContenido++;
         
-        //System.out.println("sectContenido: "+sectContenido);
-        //System.out.println("Tamaño: "+file.sectors.size());
+        System.out.println("sectContenido: "+sectContenido);
+        System.out.println("Tamaño: "+file.sectors.size());
         //Si no cabe el contenido, no lo agrega.
         if ((file.sectors.size()+sectoresVacios())<sectContenido){
-            //System.out.println("Primero");
+            System.out.println("Primero");
             return;
         }else if (file.sectors.size()<sectContenido){
             file = updateSectores(file, sectContenido, true);
-            //System.out.println("Segundo");
+            System.out.println("Segundo");
         }else{
             file = updateSectores(file, sectContenido, false);
-            //System.out.println("Tercero");
+            System.out.println("Tercero");
         }
         
-        //System.out.println("Tamaño: "+file.sectors.size());
-        //System.out.println("Sectores File: "+file.sectors.toString());
+        System.out.println("Tamaño: "+file.sectors.size());
+        System.out.println("Sectores File: "+file.sectors.toString());
         
         for(int i=0;i<file.sectors.size();i++){
             if ((i*cantEspacios+cantEspacios)>contenido.length()){
@@ -182,7 +203,8 @@ public class Disco {
             }else{
                 modificarSector(file.sectors.get(i),contenido.substring(i*cantEspacios, i*cantEspacios+cantEspacios));
             }
-        }     
+        }
+        escribirDisco(FILENAME);
     }
     
     public static void main(String[] args) throws Exception {
@@ -194,9 +216,13 @@ public class Disco {
         
         //archivo.sectors.add(1);
         
-        modificarSector(1,"00");
+        //modificarSector(1,"44");
         
         modificarContenido(archivo ,"JACOB");
+        System.out.println("DiscoJson: "+discoJson);
+        System.out.println("_________________________________________");
+        System.out.println("ARCHIVO: "+archivo);
+        //modificarContenido(archivo ,"PI");
 
         //System.out.println("JACOB".substring(2,5));
     }
