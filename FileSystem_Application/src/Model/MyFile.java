@@ -5,6 +5,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -15,6 +16,33 @@ public class MyFile {
     protected String path; // file direcrion
     public ArrayList<Integer> sectors; // sectors in memory
     protected String text; // file contenst 
+    protected Date creationDate; // creation date 
+    protected Date modificationDate; // last modification
+    protected int size; //Size of the file
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
     
     
     public MyFile(String name, String path){
@@ -73,8 +101,6 @@ public class MyFile {
 
     @Override
     public String toString() {
-        return "File{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + '}';
+        return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';
     }
-
-   
 }
