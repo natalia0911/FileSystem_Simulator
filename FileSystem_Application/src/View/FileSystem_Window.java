@@ -572,8 +572,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private void btnDiskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiskActionPerformed
         String sectors =txtnumberOfSectors.getText();
         String sector_size = txtSectorSize.getText();
-        discController.inicializarDisco(Integer.parseInt(sectors),Integer.parseInt(sector_size));
-        discController.createTxtFile();
+        Disco.inicializarDisco(Integer.parseInt(sectors),Integer.parseInt(sector_size));
+        Disco.createTxtFile();
+        Disco.writeFromJson();
     }//GEN-LAST:event_btnDiskActionPerformed
 
     private boolean isPossibleCreate(String filename){

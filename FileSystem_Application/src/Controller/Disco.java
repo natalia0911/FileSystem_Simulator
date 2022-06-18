@@ -13,6 +13,7 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter; 
 
 /**
@@ -218,20 +219,44 @@ public class Disco {
     }
     
     public static void writeFromJson(){
-        
+       JSONParser parser = new JSONParser();
+       String myText = ""; 
+       try{
+           Object obj = parser.parse(new FileReader("Disco.json"));
+           JSONObject jsonObject = (JSONObject) obj;
+           JSONArray sectores = (JSONArray) jsonObject.get("Sectores");
+           for( int i =  0; i < sectores.size() ; i++ ){
+               JSONObject jsonObject1 = (JSONObject) sectores.get(i);
+               JSONArray espacios = (JSONArray) jsonObject1.get("espacios");
+               for (int j = 0 ; j < espacios.size(); j++){
+                   //System.out.println(espacios.get(j));
+                   int x = (int)(long)espacios.get(j);
+                   myText =  myText + Integer.toString(x);
+                  
+               }
+                myText = myText +"\n";
+               
+           }
+           System.out.println(myText);
+           FileWriter myWriter = new FileWriter("disc.txt");
+           myWriter.write(myText);
+           myWriter.close();
+       }catch(Exception ex){
+           System.out.println(ex);
+       }
     }
 
     public static void main(String[] args) throws Exception {
-
-        inicializarDisco(3, 2);
+        writeFromJson();
+        //inicializarDisco(3, 2);
         //vaciarSector(2);
         //modificarSector(1,"Jacob");
-        MyFile archivo = new MyFile("Ejemplo", "C:/", new ArrayList<Integer>());
+        //MyFile archivo = new MyFile("Ejemplo", "C:/", new ArrayList<Integer>());
 
         //archivo.sectors.add(1);
-        modificarSector(1, "00");
+        //modificarSector(1, "00");
 
-        modificarContenido(archivo, "JACOB");
+        //modificarContenido(archivo, "JACOB");
 
         //System.out.println("JACOB".substring(2,5));
     }
