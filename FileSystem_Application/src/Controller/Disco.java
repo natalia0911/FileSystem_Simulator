@@ -175,7 +175,7 @@ public class Disco {
         }
         
         file.setText(contenido);
-        file.setModificationDate(new Date());
+        file.setModificationDate(new Date().toString());
         file.setSize(contenido.length());
                       
         for(int i=0;i<file.sectors.size();i++){
@@ -239,8 +239,7 @@ public class Disco {
         }
         return total;
     }
-    
-    
+       
     public static Boolean clonarContenidoFolder(Folder folder){
         
         for (MyFile file : folder.getFiles()){
@@ -282,7 +281,13 @@ public class Disco {
                 
         modificarContenido(archivo, "EJEMPLO DE UN");        
         modificarContenido(archivo, "");
+        
+        String a;
+        a= new Date().toString();
+        System.out.println("Prueba: "+a);
         //*/
+        
+        
     }
 
 }
