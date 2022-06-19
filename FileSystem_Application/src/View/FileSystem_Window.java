@@ -610,7 +610,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         //Crea el nodo en el Jtree
         createNode(filename);  
         //Prueba de busqueda
-        System.out.println(treeController.searchFile(newFile.getPath()));
+        System.out.println(treeController.searchFile(newFile.getPath()).getPath());
         
     }//GEN-LAST:event_btnCreateFileActionPerformed
 
@@ -620,20 +620,22 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
         String filename = txtFolderName.getText(); 
-        //DefaultMutableTreeNode newFile = createNode(filename);
-        String rute = treeController.createRute(jTree.getSelectionPath().toString(), filename);
+        //Se toma la direccion actual
+        String currentPath = jTree.getSelectionPath().toString();
+        //Se recupera el folder de dicha ruta
+        Folder folder =  treeController.searchFolder(currentPath);
+        //Se crea la ruta para el file a insertar
+        String rute = treeController.createRute(currentPath, filename);
+        //Creo el nuevo folder con la ruta padre
         Folder newFolder = new Folder(filename, false, rute);
+        //Agrego el folder al treecontroller 
         treeController.addFolder(newFolder);
-        System.out.println("The rute is: "+rute); 
-        //System.out.println(newFolder);
-        
-        Folder root = treeController.searchFolder("[Root]"); //Prueba
-        MyFile dummy =  new MyFile("dummy", "[Root, dummy]"); //Prueba
-        root.addFiles(dummy);//Prueba
-        System.out.println(treeController.toString());//Prueba
-        System.out.println(treeController.searchFile("[Root, dummy]"));//Prueba
-        
-        //treeController.searchFile(String path)
+        //Agrego el folder a la ruta padre 
+        folder.addFolders(newFolder);//Prueba
+        //Crea el nodo en el Jtree
+        createNode(filename);
+        System.out.println(treeController.searchFolder(newFolder.getPath()).getPath()); //Prueba
+
        
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
