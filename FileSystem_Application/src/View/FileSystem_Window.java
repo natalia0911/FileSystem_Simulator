@@ -39,7 +39,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Folder root = new Folder("root",true,"[Root]");
         treeController = new TreeController(root);
         treeController.addFolder(root);
-        private TreeController treeController = new TreeController();
+        
         //////////////////////////////////////////////////////////////
 
         Folder myfolder = new Folder("Folder name", true, "Root");
