@@ -11,6 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import Controller.Disco;
+import Controller.TreeController;
+import Model.Folder;
+import Model.MyFile;
+import java.util.ArrayList;
 
 
 
@@ -26,12 +30,49 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private DefaultTreeModel model;
     private DefaultMutableTreeNode selectedNode;
     private Disco discController;
+    private TreeController treeController;
     
     public FileSystem_Window() {
         initComponents();
         DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-        //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        //model.insertNodeInto(new DefaultMutableTreeNode("another_child"), root, root.getChildCount());
+        //////////////////////////////////////////////////////////////
+        Folder root = new Folder("root",true,"[Root]");
+        treeController = new TreeController(root);
+        treeController.addFolder(root);
+        private TreeController treeController = new TreeController();
+        //////////////////////////////////////////////////////////////
+
+        Folder myfolder = new Folder("Folder name", true, "Root");
+        Folder myfolder2 = new Folder("Folder2 name", true, "Root");
+        Folder myfolder3 = new Folder("Folder3 name", true, "Root");
+
+        
+        ArrayList<Integer> array = new  ArrayList<Integer>(); 
+        MyFile file1 = new MyFile("File1.txt", "Root/Folder name", array,  "HASDFASDsdfasfdas12341234", 12);
+        MyFile file2 = new MyFile("File2.txt", "Root/Folder name", array,  "saveevqfqasdfasdd", 12);
+        MyFile file3 = new MyFile("File3.txt", "Root/Folder name", array,  "asdffsdfsdtrhhtht", 12);
+        MyFile file4 = new MyFile("File4.txt", "Root/Folder name", array,  "asdasdsdffsdfdssdffds", 12);
+        
+        myfolder.addFiles(file1);
+        myfolder.addFiles(file2);
+        myfolder.addFiles(file3);
+        myfolder.addFiles(file4);
+        
+        myfolder2.addFiles(file1);
+        myfolder2.addFiles(file2);
+        myfolder2.addFiles(file3);
+        myfolder2.addFiles(file4);
+        
+        myfolder3.addFiles(file1);
+        myfolder3.addFiles(file2);
+        myfolder3.addFiles(file3);
+        myfolder3.addFiles(file4);
+                
+        treeController.setRoot(myfolder);
+        treeController.addFolder(myfolder2);
+        treeController.addFolder(myfolder3);
+        
+        
         
     }
 
@@ -89,6 +130,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         lblModification = new javax.swing.JLabel();
         lblSize = new javax.swing.JLabel();
         lblContents = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -101,15 +143,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Root");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("root1");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("root2");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("root2.1");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("rootS");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("roots1");
-        treeNode2.add(treeNode3);
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("dummy");
         treeNode1.add(treeNode2);
         jTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -382,27 +416,39 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         lblContents.setText("jLabel12");
 
+        jButton1.setText("Consult");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11))
-                .addGap(72, 72, 72)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblName)
-                    .addComponent(lblExtention)
-                    .addComponent(lblCreation)
-                    .addComponent(lblModification)
-                    .addComponent(lblSize)
-                    .addComponent(lblContents))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11))
+                        .addGap(72, 72, 72)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblName)
+                            .addComponent(lblExtention)
+                            .addComponent(lblCreation)
+                            .addComponent(lblModification)
+                            .addComponent(lblSize)
+                            .addComponent(lblContents)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(jButton1)))
                 .addContainerGap(296, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -432,7 +478,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(lblContents))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(53, 53, 53))
         );
 
         jTabbedPane1.addTab("PROPERTIES", jPanel5);
@@ -539,8 +587,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
             child = (DefaultMutableTreeNode) selectedNode.getChildAt(i);
             System.out.println(child);
         }
-
-
         
         txtCurrentDir.setText(jTree.getSelectionPath().toString());
         txtCurrentDir2.setText(jTree.getSelectionPath().toString());
@@ -560,7 +606,20 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
         String filename = txtFolderName.getText(); 
         DefaultMutableTreeNode newFile = createNode(filename);
-        System.out.println(newFile.getUserObjectPath());  
+        DefaultMutableTreeNode n = (DefaultMutableTreeNode)selectedNode.getLastLeaf();
+        String rute = treeController.createRute(jTree.getSelectionPath().toString(), filename);
+        Folder newFolder = new Folder(filename, false, rute);
+        MyFile dummy =  new MyFile("dummy", "[Root, dummy]");
+        System.out.println("The rute is: "+rute);
+        treeController.addFolder(newFolder);
+        System.out.println(treeController.toString());
+        System.out.println(treeController.searchFile("[Root, dummy]"));
+        //System.out.println(newFolder);
+        
+        
+        
+        //treeController.searchFile(String path)
+       
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
     private void txtCurrentDir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDir2ActionPerformed
@@ -580,8 +639,21 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDiskActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-        //AQUI
+        
     }//GEN-LAST:event_btnSaveChangesActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+       
+        System.out.println( jTree.getSelectionPath().toString());
+        lblName.setText("asdfasd");
+        lblExtention.setText("asdfasd");
+        lblCreation.setText("asdfasd");
+        lblModification.setText("asdfasd");
+        lblSize.setText("asdfasd");
+        lblContents.setText("asdfasd");
+
+        
+    }//GEN-LAST:event_jButton1MouseClicked
 
     private boolean isPossibleCreate(String filename){
        
@@ -625,7 +697,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
             model.removeNodeFromParent(selectedNode);
             model.reload();
         }
-    
     }
     
     
@@ -670,6 +741,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDisk;
     private javax.swing.JButton btnSaveChanges;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

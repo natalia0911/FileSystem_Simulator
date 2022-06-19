@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Folder;
+import Model.MyFile;
 import java.util.ArrayList;
 
 /**
@@ -17,12 +18,9 @@ public class TreeController {
     private ArrayList<Folder> folders;
     private Folder root;
 
-    public TreeController() {
-        this.folders = new ArrayList();
-    }
-    
     public TreeController(Folder root) {
         this.root = root;
+        this.folders = new ArrayList(); 
     }
 
     
@@ -42,6 +40,34 @@ public class TreeController {
         this.root = root;
     }
     
+    public String createRute(String parentRoot, String name){
+        String[] parts = parentRoot.split("]");
+        String rute = parts[0]; // 123
+        return rute + ", "+ name + "]";
+    }
     
+    public MyFile searchFile(String path){
+        
+        for(int i=0;i<folders.size();i++){
+            MyFile file = folders.get(i).searchFile(path);
+            if (file== null){
+                //return folders.get(i);
+                System.out.println("No existe");
+                return null;
+            }
+            else{
+                return file;
+            }
+        }
+        return null;
+        
+    }
+
+    @Override
+    public String toString() {
+        return "TreeController{" + "folders=" + folders + ", root=" + root + '}';
+    }
     
+
 }
+

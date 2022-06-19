@@ -4,8 +4,12 @@
  */
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+
+
 
 /**
  *
@@ -16,34 +20,10 @@ public class MyFile {
     protected String path; // file direcrion
     public ArrayList<Integer> sectors; // sectors in memory
     protected String text; // file contenst 
-    protected Date creationDate; // creation date 
-    protected Date modificationDate; // last modification
+    protected String creationDate; // creation date 
+    protected String modificationDate; // last modification
     protected int size; //Size of the file
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Date getModificationDate() {
-        return modificationDate;
-    }
-
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-    
     
     public MyFile(String name, String path){
         this.name = name;
@@ -59,9 +39,40 @@ public class MyFile {
         this.text = text;
     }
 
+    public MyFile(String name, String path, ArrayList<Integer> sectors, String text, int size) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+        Date date = new Date();
+        this.name = name;
+        this.path = path;
+        this.sectors = sectors;
+        this.text = text;
+        this.creationDate = formatter.format(date);
+        this.modificationDate = formatter.format(date);
+        this.size = size;
+    }
+
     public MyFile(String ejemplo, String c, ArrayList<Integer> arrayList) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+    
+    
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
+    
 
     public String getText() {
         return text;
@@ -99,6 +110,30 @@ public class MyFile {
         this.sectors.add(sector);
     }
 
+        public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
     @Override
     public String toString() {
         return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';
