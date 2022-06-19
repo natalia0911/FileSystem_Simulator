@@ -14,9 +14,6 @@ import Controller.Disco;
 import Controller.TreeController;
 import Model.Folder;
 import Model.MyFile;
-import java.util.ArrayList;
-import javax.swing.tree.MutableTreeNode;
-
 
 
 /**
@@ -88,7 +85,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Folder root = new Folder("root",true,"[Root]");
         treeController = new TreeController(root);
         treeController.addFolder(root);
-        MyFile file = new MyFile("rootFile.txt", "[Root, rootFile.txt]");
+        MyFile file = new MyFile("rootFile.txt", "[Root, rootFile.txt]", "");
         root.addFiles(file);
         
         Folder F1 = new Folder("F1",false,"[Root, F1]");
@@ -100,9 +97,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
         treeController.addFolder(F12);
         F1.addFolders(F11);
         F1.addFolders(F12);
-        MyFile file1 = new MyFile("File1.txt", "[Root, F1, File1.txt]");
-        MyFile file2 = new MyFile("File2.txt", "[Root, F1, F12, File2.txt]");
-        MyFile fileXX = new MyFile("FileXX.txt", "[Root, F1, F11, FileXX.txt]"); 
+        MyFile file1 = new MyFile("File1.txt", "[Root, F1, File1.txt]", "");
+        MyFile file2 = new MyFile("File2.txt", "[Root, F1, F12, File2.txt]", "");
+        MyFile fileXX = new MyFile("FileXX.txt", "[Root, F1, F11, FileXX.txt]", "");
         F1.addFiles(file1);
         F12.addFiles(file2);
         F11.addFiles(fileXX);
@@ -116,8 +113,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
         treeController.addFolder(F22);
         F2.addFolders(F21);
         F2.addFolders(F22);
-        MyFile file3 = new MyFile("File3.txt", "[Root, F2, F22, File3.txt]");
-        MyFile file4 = new MyFile("File4.txt", "[Root, F2, File4.txt]");
+        MyFile file3 = new MyFile("File3.txt", "[Root, F2, F22, File3.txt]", "");
+        MyFile file4 = new MyFile("File4.txt", "[Root, F2, File4.txt]", "");
         F2.addFiles(file4);
         F22.addFiles(file3);
         
