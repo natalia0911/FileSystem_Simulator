@@ -47,8 +47,9 @@ public class TreeController {
     }
     
     public MyFile searchFile(String path){
-        
+        System.out.println("asd");
         for(int i=0;i<folders.size();i++){
+            System.out.println(folders.size());
             MyFile file = folders.get(i).searchFile(path);
             if (file== null){
                 //return folders.get(i);

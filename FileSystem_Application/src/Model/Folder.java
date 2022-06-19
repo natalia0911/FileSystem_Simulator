@@ -101,8 +101,9 @@ public class Folder {
      * @return MyFile
      */
     public MyFile searchFile(String path){
-        
+        System.out.println("folder search");
         for(int i=0;i<files.size();i++){
+            System.out.println(files.get(i).path);
             if (files.get(i).path.equals(path)){
                 return files.get(i);
             }

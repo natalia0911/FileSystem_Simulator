@@ -35,43 +35,13 @@ public class FileSystem_Window extends javax.swing.JFrame {
     public FileSystem_Window() {
         initComponents();
         DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-        //////////////////////////////////////////////////////////////
+
         Folder root = new Folder("root",true,"[Root]");
         treeController = new TreeController(root);
         treeController.addFolder(root);
         
-        //////////////////////////////////////////////////////////////
-
-        Folder myfolder = new Folder("Folder name", true, "Root");
-        Folder myfolder2 = new Folder("Folder2 name", true, "Root");
-        Folder myfolder3 = new Folder("Folder3 name", true, "Root");
-
         
-        ArrayList<Integer> array = new  ArrayList<Integer>(); 
-        MyFile file1 = new MyFile("File1.txt", "Root/Folder name", array,  "HASDFASDsdfasfdas12341234", 12);
-        MyFile file2 = new MyFile("File2.txt", "Root/Folder name", array,  "saveevqfqasdfasdd", 12);
-        MyFile file3 = new MyFile("File3.txt", "Root/Folder name", array,  "asdffsdfsdtrhhtht", 12);
-        MyFile file4 = new MyFile("File4.txt", "Root/Folder name", array,  "asdasdsdffsdfdssdffds", 12);
-        
-        myfolder.addFiles(file1);
-        myfolder.addFiles(file2);
-        myfolder.addFiles(file3);
-        myfolder.addFiles(file4);
-        
-        myfolder2.addFiles(file1);
-        myfolder2.addFiles(file2);
-        myfolder2.addFiles(file3);
-        myfolder2.addFiles(file4);
-        
-        myfolder3.addFiles(file1);
-        myfolder3.addFiles(file2);
-        myfolder3.addFiles(file3);
-        myfolder3.addFiles(file4);
-                
-        treeController.setRoot(myfolder);
-        treeController.addFolder(myfolder2);
-        treeController.addFolder(myfolder3);
-        
+        System.out.println("se hace");
         
         
     }
@@ -119,13 +89,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
         btnSaveChanges = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
-        lblExtention = new javax.swing.JLabel();
         lblCreation = new javax.swing.JLabel();
         lblModification = new javax.swing.JLabel();
         lblSize = new javax.swing.JLabel();
@@ -394,8 +362,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         jLabel7.setText("Name:");
 
-        jLabel8.setText("Extension:");
-
         jLabel9.setText("Modification date:");
 
         jLabel10.setText("Creation date:");
@@ -405,8 +371,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jLabel12.setText("Contents:");
 
         lblName.setText("jLabel12");
-
-        lblExtention.setText("jLabel12");
 
         lblCreation.setText("jLabel12");
 
@@ -435,13 +399,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel7)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel11))
                         .addGap(72, 72, 72)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblName)
-                            .addComponent(lblExtention)
                             .addComponent(lblCreation)
                             .addComponent(lblModification)
                             .addComponent(lblSize)
@@ -454,14 +416,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(79, 79, 79)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lblName))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(lblExtention))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -603,8 +561,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Folder folder =  treeController.searchFolder(currentPath);
         //Se crea la ruta para el file a insertar
         String rute = treeController.createRute(currentPath, filename);
+        //Tomar el contenido
+        String txt = jTextContents.getText();
         //Creo qie nuevo file con el nombre dado y la ruta 
-        MyFile newFile = new MyFile(filename, rute);
+        MyFile newFile = new MyFile(filename, rute,txt);
         //Se lo agrego al nodo padre
         folder.addFiles(newFile);
         //Crea el nodo en el Jtree
@@ -672,14 +632,13 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        
-        System.out.println( jTree.getSelectionPath().toString());
-        lblName.setText("asdfasd");
-        lblExtention.setText("asdfasd");
-        lblCreation.setText("asdfasd");
-        lblModification.setText("asdfasd");
-        lblSize.setText("asdfasd");
-        lblContents.setText("asdfasd");
-
+        //System.out.println( jTree.getSelectionPath().toString());
+        MyFile selectedFile = treeController.searchFile(jTree.getSelectionPath().toString());
+        lblName.setText(selectedFile.getName());
+        lblCreation.setText(selectedFile.getCreationDate());
+        lblModification.setText(selectedFile.getModificationDate());
+        lblSize.setText(Integer.toString(selectedFile.getSize()));
+        lblContents.setText(selectedFile.getText());
         
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -781,7 +740,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
@@ -806,7 +764,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JLabel lblCreation;
     private javax.swing.JLabel lblCurrentDir;
     private javax.swing.JLabel lblCurrentDir2;
-    private javax.swing.JLabel lblExtention;
     private javax.swing.JLabel lblFileName;
     private javax.swing.JLabel lblModification;
     private javax.swing.JLabel lblName;
