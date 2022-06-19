@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Folder;
 import Model.MyFile;
 
 import java.io.FileReader;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter; 
 import java.io.PrintWriter;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -37,7 +39,6 @@ public class Disco {
             for (Object caracter: espacios) contenido = contenido + caracter;
             contenido = contenido + "\n";
         }
-        //System.out.println("jsonToString: "+contenido);
         return contenido;
     }
     
@@ -129,14 +130,11 @@ public class Disco {
         int cantVacios=0;
         Integer variable=0;
         
-        //System.out.println("Sectores en Vacios: "+sectores);
-        
         for(int i=0;i<cantSectores;i++){
             sector = (JSONObject) sectores.get(i);
             espacios = (JSONArray) sector.get("espacios");
             if (espacios.get(0).getClass().isInstance(variable))cantVacios++;
         }
-        //System.out.println("Cantidad vacios: "+cantVacios);
         return cantVacios;
     }
 
@@ -163,32 +161,23 @@ public class Disco {
         return file;
     }
 
-    public static void modificarContenido(MyFile file, String contenido){
-        //System.out.println("-----------------------------------------------");
+    public static Boolean modificarContenido(MyFile file, String contenido){
         int sectContenido = contenido.length()/cantEspacios;
         if (contenido.length()%cantEspacios!=0) sectContenido++;
         
-        //System.out.println("sectContenido: "+sectContenido);
-        //System.out.println("Tamaño: "+file.sectors.size());
         //Si no cabe el contenido, no lo agrega.
         if ((file.sectors.size()+sectoresVacios())<sectContenido){
-            //System.out.println("Primero");
-            return;
+            return false;
         }else if (file.sectors.size()<sectContenido){
             file = updateSectores(file, sectContenido, true);
-            //System.out.println("Segundo");
         }else{
             file = updateSectores(file, sectContenido, false);
-            //System.out.println("Tercero");
         }
         
         file.setText(contenido);
         file.setModificationDate(new Date());
         file.setSize(contenido.length());
-        
-        ////System.out.println("Tamaño: "+file.sectors.size());
-        ////System.out.println("Sectores File: "+file.sectors.toString());
-        
+                      
         for(int i=0;i<file.sectors.size();i++){
             if ((i*cantEspacios+cantEspacios)>contenido.length()){
                 modificarSector(file.sectors.get(i),contenido.substring(i*cantEspacios, contenido.length()));
@@ -197,6 +186,7 @@ public class Disco {
             }
         }
         escribirDisco(FILENAME);
+        return true;
     }
 
     public static void createTxtFile() {
@@ -224,13 +214,10 @@ public class Disco {
                JSONObject jsonObject1 = (JSONObject) sectores.get(i);
                JSONArray espacios = (JSONArray) jsonObject1.get("espacios");
                for (int j = 0 ; j < espacios.size(); j++){
-                   //System.out.println(espacios.get(j));
                    int x = (int)(long)espacios.get(j);
                    myText =  myText + Integer.toString(x);
-                  
                }
                 myText = myText +"\n";
-               
            }
            System.out.println(myText);
            FileWriter myWriter = new FileWriter("disc.txt");
@@ -240,28 +227,62 @@ public class Disco {
            System.out.println(ex);
        }
     }
-
+    
+    public static int cantidadSectoresFolder(Folder folder){
+        int total=0;
+        
+        for (MyFile file : folder.getFiles()){
+            total+=file.sectors.size();
+        }
+        for (Folder subFolder : folder.getFolders()){
+            total+=cantidadSectoresFolder(subFolder);
+        }
+        return total;
+    }
+    
+    
+    public static Boolean clonarContenidoFolder(Folder folder){
+        
+        for (MyFile file : folder.getFiles()){
+            file.setSectors(new ArrayList<>());
+            modificarContenido(file,file.getText());
+        }
+        for (Folder subFolder : folder.getFolders()){
+            clonarContenidoFolder(subFolder);
+        }
+        
+        return true;
+        
+    }
+    
+    public static Boolean clonarContenido(Object obj){
+        
+        if (obj.getClass()==MyFile.class){
+            MyFile nuevo = (MyFile)obj;
+            nuevo.setSectors(new ArrayList<>());
+            //Se manda como un nuevo archivo, y dentro de esa función se encarga de agregarlo o no.
+            return modificarContenido(nuevo,nuevo.getText());
+            
+        }else if (obj.getClass()==Folder.class){
+            //Si la cantidad total de sectores dentro de los directorios es mayor al disponible no hace el copy.
+            if(cantidadSectoresFolder((Folder)obj)>sectoresVacios()) return false;
+            clonarContenidoFolder((Folder)obj);
+        }else{
+            //No es un archivo ni una carpeta.
+            return false;
+        }
+        return true;
+    }
+    
+    
     public static void main(String[] args) throws Exception {
         //writeFromJson();
+        /*
         inicializarDisco(3, 7);
-        //vaciarSector(2);
-        //modificarSector(1,"Jacob");
-        MyFile archivo = new MyFile("Ejemplo", "C:/");
-
-        //archivo.sectors.add(1);
-        //modificarSector(1, "00");
-        
-        //System.out.println("Archivo Antes: "+archivo);
-        
-        modificarContenido(archivo, "EJEMPLO DE UN");
-        
-        //System.out.println("Archivo Después: "+archivo);       
-        
+                
+        modificarContenido(archivo, "EJEMPLO DE UN");        
         modificarContenido(archivo, "");
-        
-        //System.out.println("Archivo Después: "+archivo);
-        
-        //System.out.println("DiscoJson: "+discoJson);
+        //*/
     }
 
 }
