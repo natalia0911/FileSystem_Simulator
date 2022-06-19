@@ -4,18 +4,13 @@ import Model.MyFile;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter; 
 import java.io.PrintWriter;
+import java.time.Instant;
+import java.util.Date;
 
 /**
  *
@@ -187,6 +182,10 @@ public class Disco {
             //System.out.println("Tercero");
         }
         
+        file.setText(contenido);
+        file.setModificationDate(new Date());
+        file.setSize(contenido.length());
+        
         ////System.out.println("Tamaño: "+file.sectors.size());
         ////System.out.println("Sectores File: "+file.sectors.toString());
         
@@ -251,10 +250,18 @@ public class Disco {
 
         //archivo.sectors.add(1);
         //modificarSector(1, "00");
-
-        modificarContenido(archivo, "JACOB");
-
-        //System.out.println("JACOB".substring(2,5));
+        
+        //System.out.println("Archivo Antes: "+archivo);
+        
+        modificarContenido(archivo, "EJEMPLO DE UN");
+        
+        //System.out.println("Archivo Después: "+archivo);       
+        
+        modificarContenido(archivo, "");
+        
+        //System.out.println("Archivo Después: "+archivo);
+        
+        //System.out.println("DiscoJson: "+discoJson);
     }
 
 }
