@@ -150,6 +150,15 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jButtonCopy = new javax.swing.JButton();
         jButtonCopyGetDestination = new javax.swing.JButton();
         jButtonCopyGetOrigin1 = new javax.swing.JButton();
+        jTextFieldDestinationPathOut = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jButtonCopyV_PC = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        jTextFieldPathFileOut = new javax.swing.JTextField();
+        jButtonCopyPC_V = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,7 +215,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(txtSectorSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
                 .addComponent(btnDisk)
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("CREATE", jPanel3);
@@ -273,12 +282,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(btnCreateFile)
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(38, 38, 38)
                     .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(373, Short.MAX_VALUE)))
+                    .addContainerGap(470, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("FILE", jPanel2);
@@ -341,7 +350,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(txtFolderName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddFolder)
                     .addComponent(lblAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 385, Short.MAX_VALUE)
                 .addComponent(btnDelete)
                 .addGap(23, 23, 23))
         );
@@ -398,7 +407,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(btnSaveChanges)
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("MODFILE", jPanel4);
@@ -489,7 +498,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(lblContents))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(53, 53, 53))
         );
@@ -534,7 +543,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86)
                 .addComponent(jButton2)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("FIND", jPanel6);
@@ -547,7 +556,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
+            .addGap(0, 528, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("MOVE", jPanel8);
@@ -591,28 +600,95 @@ public class FileSystem_Window extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldDestinationPathOut.setEditable(false);
+        jTextFieldDestinationPathOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDestinationPathOutActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setText("Copy Virtual to Virtual");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setText("Copy Virtual to PC");
+
+        jLabel17.setText("Destination Path of PC");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setText("Copy PC to Virtual");
+
+        jButtonCopyV_PC.setText("Copy");
+        jButtonCopyV_PC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyV_PCActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("Path File from PC ");
+
+        jTextFieldPathFileOut.setEditable(false);
+        jTextFieldPathFileOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPathFileOutActionPerformed(evt);
+            }
+        });
+
+        jButtonCopyPC_V.setText("Copy");
+        jButtonCopyPC_V.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyPC_VActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addGap(211, 211, 211))
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonCopy)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldPathCopy)
-                    .addComponent(jTextFieldDestinationPath, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonCopyGetDestination)
-                    .addComponent(jButtonCopyGetOrigin1))
-                .addContainerGap(208, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel18)
+                                .addComponent(jLabel16))
+                            .addGap(60, 60, 60))
+                        .addComponent(jLabel19)
+                        .addComponent(jLabel17)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jTextFieldPathFileOut, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                                .addComponent(jButtonCopyPC_V))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(jTextFieldDestinationPathOut)
+                                .addGap(114, 114, 114)
+                                .addComponent(jButtonCopyV_PC))))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonCopy, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPathCopy, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldDestinationPath, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonCopyGetDestination)
+                            .addComponent(jButtonCopyGetOrigin1))))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel15)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -626,7 +702,23 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jButtonCopyGetDestination))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonCopy)
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDestinationPathOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyV_PC))
+                .addGap(42, 42, 42)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPathFileOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyPC_V))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("COPY", jPanel7);
@@ -649,7 +741,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jTabbedPane1))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -822,6 +914,22 @@ public class FileSystem_Window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonCopyGetOrigin1ActionPerformed
 
+    private void jTextFieldDestinationPathOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDestinationPathOutActionPerformed
+
+    private void jButtonCopyV_PCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyV_PCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyV_PCActionPerformed
+
+    private void jTextFieldPathFileOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathFileOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPathFileOutActionPerformed
+
+    private void jButtonCopyPC_VActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyPC_VActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyPC_VActionPerformed
+
     private boolean isPossibleCreate(String filename){
        
         int cont = selectedNode.getChildCount();
@@ -913,12 +1021,19 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCopyGetDestination;
     private javax.swing.JButton jButtonCopyGetOrigin1;
+    private javax.swing.JButton jButtonCopyPC_V;
+    private javax.swing.JButton jButtonCopyV_PC;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -945,7 +1060,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextContents;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldDestinationPath;
+    private javax.swing.JTextField jTextFieldDestinationPathOut;
     private javax.swing.JTextField jTextFieldPathCopy;
+    private javax.swing.JTextField jTextFieldPathFileOut;
     private javax.swing.JTree jTree;
     private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblContents;
