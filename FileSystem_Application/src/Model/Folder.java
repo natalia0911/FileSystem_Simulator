@@ -94,39 +94,4 @@ public class Folder {
         this.files.add(files);
     }
     
-    /**
-     * Funcion que devuelve un file por ruta, si en este folder no está
-     * revisa en los folders hijos
-     * @param path
-     * @return MyFile
-     */
-    public MyFile searchFile(String path){
-        
-        for(int i=0;i<files.size();i++){
-            if (files.get(i).path.equals(path)){
-                return files.get(i);
-            }
-        }
-        return searchFileinFolder(path);
-    }
-    
-    public MyFile searchFileinFolder(String path){
-        for(int i=0;i<folders.size();i++){
-            Folder f = folders.get(i);
-            for(int j=0; j<f.files.get(i).size;j++){
-                if (f.files.get(i).path.equals(path)){
-                    f.files.get(i);
-                }
-            }
-        }
-        return null;
-    }
-    
-    /*
-    @Override
-    public String toString(){
-        return "Folder {" + "name:" + name + ", root:" + root +", father:" +father.getName() + 
-                ", Path:"+ path +", Folders:" +folders+ ", Files:" + files;
-    }
-    */
 }

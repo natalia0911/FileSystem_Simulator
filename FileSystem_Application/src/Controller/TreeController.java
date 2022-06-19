@@ -45,31 +45,29 @@ public class TreeController {
         String rute = parts[0]; // 123
         return rute + ", "+ name + "]";
     }
-    
+
     public MyFile searchFile(String path){
-        
         for(int i=0;i<folders.size();i++){
-            MyFile file = folders.get(i).searchFile(path);
-            if (file== null){
-                //return folders.get(i);
-                System.out.println("No existe");
-                return null;
-            }
-            else{
-                return file;
+            ArrayList<MyFile> files = folders.get(i).getFiles();
+            for (int j=0; j<files.size(); j++){
+                if (files.get(j).getPath().equals(path)){
+                    return files.get(j);
+                }
             }
         }
-        return null;
-        
+        System.out.println("File doesn't exist");
+        return null; 
     }
+    
     
     public Folder searchFolder(String path){
         for(int i=0;i<folders.size();i++){
-            if(folders.get(i).getPath().equals(path)){
+            if (folders.get(i).getPath().equals(path)){
                 return folders.get(i);
             }
         }
-        return null;
+        System.out.println("Folder doesn't exist");
+        return null; 
     }
 
     @Override

@@ -36,12 +36,14 @@ public class FileSystem_Window extends javax.swing.JFrame {
         initComponents();
         DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
         //////////////////////////////////////////////////////////////
+        /*
         Folder root = new Folder("root",true,"[Root]");
         treeController = new TreeController(root);
         treeController.addFolder(root);
+        */
         
         //////////////////////////////////////////////////////////////
-
+        /*
         Folder myfolder = new Folder("Folder name", true, "Root");
         Folder myfolder2 = new Folder("Folder2 name", true, "Root");
         Folder myfolder3 = new Folder("Folder3 name", true, "Root");
@@ -71,7 +73,53 @@ public class FileSystem_Window extends javax.swing.JFrame {
         treeController.setRoot(myfolder);
         treeController.addFolder(myfolder2);
         treeController.addFolder(myfolder3);
+        */
         
+        pruebas();
+        
+    }
+    
+    public void pruebas(){
+        
+        Folder root = new Folder("root",true,"[Root]");
+        treeController = new TreeController(root);
+        treeController.addFolder(root);
+        MyFile file = new MyFile("rootFile.txt", "[Root, rootFile.txt]");
+        root.addFiles(file);
+        
+        Folder F1 = new Folder("F1",false,"[Root, F1]");
+        treeController.addFolder(F1);
+        root.addFolders(F1);
+        Folder F11 = new Folder("F11",false,"[Root, F1, F11]");
+        treeController.addFolder(F11);
+        Folder F12 = new Folder("F12",false,"[Root, F1, F12]");
+        treeController.addFolder(F12);
+        F1.addFolders(F11);
+        F1.addFolders(F12);
+        MyFile file1 = new MyFile("File1.txt", "[Root, F1, File1.txt]");
+        MyFile file2 = new MyFile("File2.txt", "[Root, F1, F12, File2.txt]");
+        MyFile fileXX = new MyFile("FileXX.txt", "[Root, F1, F11, FileXX.txt]"); 
+        F1.addFiles(file1);
+        F12.addFiles(file2);
+        F11.addFiles(fileXX);
+        
+        Folder F2 = new Folder("F2",false,"[Root, F2]");
+        treeController.addFolder(F2);
+        root.addFolders(F2);
+        Folder F21 = new Folder("F21",false,"[Root, F2, F21]");
+        treeController.addFolder(F21);
+        Folder F22 = new Folder("F22",false,"[Root, F2, F22]");
+        treeController.addFolder(F22);
+        F2.addFolders(F21);
+        F2.addFolders(F22);
+        MyFile file3 = new MyFile("File3.txt", "[Root, F2, F22, File3.txt]");
+        MyFile file4 = new MyFile("File4.txt", "[Root, F2, File4.txt]");
+        F2.addFiles(file4);
+        F22.addFiles(file3);
+        
+        System.out.println(treeController.searchFolder(F22.getPath())); 
+        System.out.println(treeController.searchFile(fileXX.getPath()));  
+        //System.out.println(F12.getFiles());
         
         
     }
@@ -667,7 +715,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         //Se actualiza el FILE con la nueva informacion
         file.setText(newText);
         //Prueba de busqueda de un file
-            System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
+        System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
