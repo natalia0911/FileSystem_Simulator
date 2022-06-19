@@ -580,22 +580,37 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void jTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeValueChanged
         selectedNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-
+        
+        /*
+        Recorrer los hijos de un nodo
         int cont = selectedNode.getChildCount();
         DefaultMutableTreeNode child = new DefaultMutableTreeNode();
         for (int i=0; i<cont; i++){
             child = (DefaultMutableTreeNode) selectedNode.getChildAt(i);
             System.out.println(child);
         }
+        */
         
         txtCurrentDir.setText(jTree.getSelectionPath().toString());
         txtCurrentDir2.setText(jTree.getSelectionPath().toString());
     }//GEN-LAST:event_jTreeValueChanged
 
     private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
-        String filename =txtFileName.getText()+"."+txtFileExtension.getText(); 
-        System.out.println(filename);
+        String filename = txtFileName.getText()+"."+txtFileExtension.getText(); 
+        //Se toma la direccion actual
+        String currentPath = jTree.getSelectionPath().toString();
+        //Se recupera el folder de dicha ruta
+        Folder folder =  treeController.searchFolder(currentPath);
+        //Se crea la ruta para el file a insertar
+        String rute = treeController.createRute(currentPath, filename);
+        //Creo qie nuevo file con el nombre dado y la ruta 
+        MyFile newFile = new MyFile(filename, rute);
+        //Se lo agrego al nodo padre
+        folder.addFiles(newFile);
+        //Crea el nodo en el Jtree
         createNode(filename);  
+        //Prueba de busqueda
+        System.out.println(treeController.searchFile(newFile.getPath()));
         
     }//GEN-LAST:event_btnCreateFileActionPerformed
 
@@ -639,7 +654,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDiskActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-        
+        String path = txtCurrentDir2.getText();
+        treeController.searchFile(path);
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
