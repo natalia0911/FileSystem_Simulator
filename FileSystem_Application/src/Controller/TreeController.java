@@ -24,7 +24,6 @@ public class TreeController {
     public TreeController(Folder root) {
         this.root = root;
     }
-
     
     public ArrayList<Folder> getFolders() {
         return folders;
@@ -43,5 +42,6 @@ public class TreeController {
     }
     
     
-    
+
 }
+

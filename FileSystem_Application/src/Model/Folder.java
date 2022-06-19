@@ -33,8 +33,8 @@ public class Folder {
         this.root = root;
         this.father = father;
         this.path = path;
-        this.folders = null;
-        this.files = null;
+        this.folders = new ArrayList<Folder>();
+        this.files = new ArrayList<MyFile>();
     }
 
     public Folder(String name, boolean root, String path) {
@@ -42,8 +42,8 @@ public class Folder {
         this.root = root;
         this.path = path;
         this.father = null;
-        this.folders = null;
-        this.files = null;
+        this.folders = new ArrayList<Folder>();
+        this.files = new ArrayList<MyFile>();
     }
     
     
