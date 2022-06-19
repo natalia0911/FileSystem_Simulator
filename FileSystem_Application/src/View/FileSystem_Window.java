@@ -15,6 +15,7 @@ import Controller.TreeController;
 import Model.Folder;
 import Model.MyFile;
 import java.util.ArrayList;
+import javax.swing.tree.MutableTreeNode;
 
 
 
@@ -31,6 +32,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private DefaultMutableTreeNode selectedNode;
     private Disco discController;
     private TreeController treeController;
+    //Auxliars nodes for copy a node inside to other node
+    private DefaultMutableTreeNode originNode=null;
+    private DefaultMutableTreeNode destinationNode=null;
     
     public FileSystem_Window() {
         initComponents();
@@ -167,13 +171,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
         btnSaveChanges = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
-        lblExtention = new javax.swing.JLabel();
         lblCreation = new javax.swing.JLabel();
         lblModification = new javax.swing.JLabel();
         lblSize = new javax.swing.JLabel();
@@ -185,8 +187,24 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton2 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldPathCopy = new javax.swing.JTextField();
+        jTextFieldDestinationPath = new javax.swing.JTextField();
+        jButtonCopy = new javax.swing.JButton();
+        jButtonCopyGetDestination = new javax.swing.JButton();
+        jButtonCopyGetOrigin1 = new javax.swing.JButton();
+        jTextFieldDestinationPathOut = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jButtonCopyV_PC = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        jTextFieldPathFileOut = new javax.swing.JTextField();
+        jButtonCopyPC_V = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -243,7 +261,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(txtSectorSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
                 .addComponent(btnDisk)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("CREATE", jPanel3);
@@ -310,12 +328,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(btnCreateFile)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(38, 38, 38)
                     .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(369, Short.MAX_VALUE)))
+                    .addContainerGap(470, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("FILE", jPanel2);
@@ -378,7 +396,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(txtFolderName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddFolder)
                     .addComponent(lblAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 385, Short.MAX_VALUE)
                 .addComponent(btnDelete)
                 .addGap(23, 23, 23))
         );
@@ -435,14 +453,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(btnSaveChanges)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("MODFILE", jPanel4);
 
         jLabel7.setText("Name:");
-
-        jLabel8.setText("Extension:");
 
         jLabel9.setText("Modification date:");
 
@@ -453,8 +469,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jLabel12.setText("Contents:");
 
         lblName.setText("jLabel12");
-
-        lblExtention.setText("jLabel12");
 
         lblCreation.setText("jLabel12");
 
@@ -483,13 +497,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel7)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel11))
                         .addGap(72, 72, 72)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblName)
-                            .addComponent(lblExtention)
                             .addComponent(lblCreation)
                             .addComponent(lblModification)
                             .addComponent(lblSize)
@@ -502,14 +514,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(79, 79, 79)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lblName))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(lblExtention))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -526,7 +534,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(lblContents))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(53, 53, 53))
         );
@@ -571,23 +579,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86)
                 .addComponent(jButton2)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("FIND", jPanel6);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("COPY", jPanel7);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -597,10 +592,172 @@ public class FileSystem_Window extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
+            .addGap(0, 528, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("MOVE", jPanel8);
+
+        jLabel3.setText("Path to Copy:");
+
+        jLabel14.setText("Destination Path");
+
+        jTextFieldPathCopy.setEditable(false);
+        jTextFieldPathCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPathCopyActionPerformed(evt);
+            }
+        });
+
+        jTextFieldDestinationPath.setEditable(false);
+        jTextFieldDestinationPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDestinationPathActionPerformed(evt);
+            }
+        });
+
+        jButtonCopy.setText("Copy");
+        jButtonCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyActionPerformed(evt);
+            }
+        });
+
+        jButtonCopyGetDestination.setText("GetNode");
+        jButtonCopyGetDestination.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyGetDestinationActionPerformed(evt);
+            }
+        });
+
+        jButtonCopyGetOrigin1.setText("GetNode");
+        jButtonCopyGetOrigin1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyGetOrigin1ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldDestinationPathOut.setEditable(false);
+        jTextFieldDestinationPathOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDestinationPathOutActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setText("Copy Virtual to Virtual");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setText("Copy Virtual to PC");
+
+        jLabel17.setText("Destination Path of PC");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setText("Copy PC to Virtual");
+
+        jButtonCopyV_PC.setText("Copy");
+        jButtonCopyV_PC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyV_PCActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("Path File from PC ");
+
+        jTextFieldPathFileOut.setEditable(false);
+        jTextFieldPathFileOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldPathFileOutActionPerformed(evt);
+            }
+        });
+
+        jButtonCopyPC_V.setText("Copy");
+        jButtonCopyPC_V.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCopyPC_VActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addGap(211, 211, 211))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel18)
+                                .addComponent(jLabel16))
+                            .addGap(60, 60, 60))
+                        .addComponent(jLabel19)
+                        .addComponent(jLabel17)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jTextFieldPathFileOut, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                                .addComponent(jButtonCopyPC_V))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(jTextFieldDestinationPathOut)
+                                .addGap(114, 114, 114)
+                                .addComponent(jButtonCopyV_PC))))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonCopy, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPathCopy, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldDestinationPath, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonCopyGetDestination)
+                            .addComponent(jButtonCopyGetOrigin1))))
+                .addContainerGap(153, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPathCopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyGetOrigin1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDestinationPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyGetDestination))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonCopy)
+                .addGap(56, 56, 56)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDestinationPathOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyV_PC))
+                .addGap(42, 42, 42)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPathFileOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCopyPC_V))
+                .addContainerGap(98, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("COPY", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -620,7 +777,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jTabbedPane1))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -635,7 +792,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         DefaultMutableTreeNode child = new DefaultMutableTreeNode();
         for (int i=0; i<cont; i++){
             child = (DefaultMutableTreeNode) selectedNode.getChildAt(i);
-            System.out.println(child);
+            //System.out.println(child);
         }
         */
         
@@ -644,6 +801,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_jTreeValueChanged
 
     private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
+
         String filename = txtFileName.getText()+"."+txtFileExtension.getText(); 
         //Se toma la direccion actual
         String currentPath = jTree.getSelectionPath().toString();
@@ -651,11 +809,14 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Folder folder =  treeController.searchFolder(currentPath);
         //Se crea la ruta para el file a insertar
         String rute = treeController.createRute(currentPath, filename);
+        //Tomar el contenido
+        String txt = jTextContents.getText();
         //Creo qie nuevo file con el nombre dado y la ruta 
-        MyFile newFile = new MyFile(filename, rute);
+        MyFile newFile = new MyFile(filename, rute,txt);
         //Se lo agrego al nodo padre
         folder.addFiles(newFile);
         //Crea el nodo en el Jtree
+        
         createNode(filename);  
         //Prueba de busqueda de un file
         System.out.println(treeController.searchFile(newFile.getPath()).getPath());
@@ -676,6 +837,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         String rute = treeController.createRute(currentPath, filename);
         //Creo el nuevo folder con la ruta padre
         Folder newFolder = new Folder(filename, false, rute);
+
         //Agrego el folder al treecontroller 
         treeController.addFolder(newFolder);
         //Agrego el folder a la ruta padre 
@@ -684,7 +846,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         createNode(filename);
         //Prueba de busqueda de un folder
         System.out.println(treeController.searchFolder(newFolder.getPath()).getPath()); 
-
        
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
@@ -720,16 +881,121 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        
-        System.out.println( jTree.getSelectionPath().toString());
-        lblName.setText("asdfasd");
-        lblExtention.setText("asdfasd");
-        lblCreation.setText("asdfasd");
-        lblModification.setText("asdfasd");
-        lblSize.setText("asdfasd");
-        lblContents.setText("asdfasd");
-
+        //System.out.println( jTree.getSelectionPath().toString());
+        MyFile selectedFile = treeController.searchFile(jTree.getSelectionPath().toString());
+        lblName.setText(selectedFile.getName());
+        lblCreation.setText(selectedFile.getCreationDate());
+        lblModification.setText(selectedFile.getModificationDate());
+        lblSize.setText(Integer.toString(selectedFile.getSize()));
+        lblContents.setText(selectedFile.getText());
         
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jTextFieldPathCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathCopyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPathCopyActionPerformed
+
+    private void jTextFieldDestinationPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDestinationPathActionPerformed
+
+    private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
+        // TODO add your handling code here:
+        DefaultMutableTreeNode aux = null;
+        
+        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){         
+            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+            
+            System.out.println("Origen: "+originNode.toString());
+            System.out.println("Destino: "+destinationNode.toString());
+            
+            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
+                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
+                
+                if (aux.toString().equals(originNode.toString())){
+                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION", 
+                                                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    switch (resp) {
+                        case 0://yes
+                            destinationNode.remove(i); break;
+                        case 1: 
+                            originNode=null; destinationNode=null; return;
+                    }
+                }
+            }
+            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
+        }
+        //make these auxiliars nodes to null.
+        originNode=null;
+        destinationNode=null; 
+        
+    }//GEN-LAST:event_jButtonCopyActionPerformed
+
+    private void jButtonCopyGetDestinationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetDestinationActionPerformed
+        
+        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
+            destinationNode = selectedNode;
+            jTextFieldDestinationPath.setText(jTree.getSelectionPath().toString());
+            
+        }else{
+            destinationNode=null;
+        }
+    }//GEN-LAST:event_jButtonCopyGetDestinationActionPerformed
+
+    
+    private DefaultMutableTreeNode copyNode(DefaultMutableTreeNode node){
+        DefaultMutableTreeNode aux = null;
+        DefaultMutableTreeNode child = null;
+        
+        if(node.isLeaf()){
+            aux=(DefaultMutableTreeNode) node.clone();
+        }else{
+            aux = (DefaultMutableTreeNode) node.clone();
+            for (int i=0;i<jTree.getModel().getChildCount(node);i++){
+                //get the each child from the node that we will copy.
+                child = (DefaultMutableTreeNode) jTree.getModel().getChild(node, i);
+                //make a copy of that child                
+                child = copyNode(child);              
+                aux.add(child);
+            }
+        }
+        
+        return aux;
+        
+    }
+    
+    private void jButtonCopyGetOrigin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetOrigin1ActionPerformed
+
+        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
+            originNode = (DefaultMutableTreeNode) selectedNode.clone();
+            DefaultMutableTreeNode aux;
+            
+            for (int i=0;i<jTree.getModel().getChildCount(selectedNode);i++){
+                aux= (DefaultMutableTreeNode) jTree.getModel().getChild(selectedNode, i);
+                originNode.insert(copyNode(aux),originNode.getChildCount());
+            }      
+            jTextFieldPathCopy.setText(jTree.getSelectionPath().toString());
+  
+        }else{
+            destinationNode=null;
+        }
+    }//GEN-LAST:event_jButtonCopyGetOrigin1ActionPerformed
+
+    private void jTextFieldDestinationPathOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDestinationPathOutActionPerformed
+
+    private void jButtonCopyV_PCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyV_PCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyV_PCActionPerformed
+
+    private void jTextFieldPathFileOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathFileOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPathFileOutActionPerformed
+
+    private void jButtonCopyPC_VActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyPC_VActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyPC_VActionPerformed
 
     private boolean isPossibleCreate(String filename){
        
@@ -759,7 +1025,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         if (isPossibleCreate(filename)){
             newFile = new DefaultMutableTreeNode(filename);
             if (selectedNode!=null){
-                System.out.println(selectedNode);
+                //System.out.println(selectedNode);
                 DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
                 model.insertNodeInto(newFile, selectedNode, selectedNode.getChildCount());
             }
@@ -819,17 +1085,28 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveChanges;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCopy;
+    private javax.swing.JButton jButtonCopyGetDestination;
+    private javax.swing.JButton jButtonCopyGetOrigin1;
+    private javax.swing.JButton jButtonCopyPC_V;
+    private javax.swing.JButton jButtonCopyV_PC;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
@@ -848,13 +1125,16 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextArea jTextContents;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldDestinationPath;
+    private javax.swing.JTextField jTextFieldDestinationPathOut;
+    private javax.swing.JTextField jTextFieldPathCopy;
+    private javax.swing.JTextField jTextFieldPathFileOut;
     private javax.swing.JTree jTree;
     private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblContents;
     private javax.swing.JLabel lblCreation;
     private javax.swing.JLabel lblCurrentDir;
     private javax.swing.JLabel lblCurrentDir2;
-    private javax.swing.JLabel lblExtention;
     private javax.swing.JLabel lblFileName;
     private javax.swing.JLabel lblModification;
     private javax.swing.JLabel lblName;

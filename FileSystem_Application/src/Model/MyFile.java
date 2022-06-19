@@ -25,11 +25,16 @@ public class MyFile {
     protected int size; //Size of the file
 
     
-    public MyFile(String name, String path){
+    public MyFile(String name, String path, String txt){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+        Date date = new Date();
         this.name = name;
         this.path = path;
         this.sectors = new ArrayList<Integer>();
-        this.text = "";
+        this.text = txt;
+        this.creationDate = formatter.format(date);
+        this.modificationDate = formatter.format(date);
+        this.size = txt.length();
     }
         
     public MyFile(String name, String path, ArrayList<Integer> sectors, String text){
@@ -118,7 +123,6 @@ public class MyFile {
         this.modificationDate = modificationDate;
     }
 
-    
     @Override
     public String toString() {
         return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';
