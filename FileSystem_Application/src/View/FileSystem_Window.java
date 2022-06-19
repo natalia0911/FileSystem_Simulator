@@ -609,7 +609,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         folder.addFiles(newFile);
         //Crea el nodo en el Jtree
         createNode(filename);  
-        //Prueba de busqueda
+        //Prueba de busqueda de un file
         System.out.println(treeController.searchFile(newFile.getPath()).getPath());
         
     }//GEN-LAST:event_btnCreateFileActionPerformed
@@ -634,7 +634,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
         folder.addFolders(newFolder);//Prueba
         //Crea el nodo en el Jtree
         createNode(filename);
-        System.out.println(treeController.searchFolder(newFolder.getPath()).getPath()); //Prueba
+        //Prueba de busqueda de un folder
+        System.out.println(treeController.searchFolder(newFolder.getPath()).getPath()); 
 
        
     }//GEN-LAST:event_btnAddFolderActionPerformed
@@ -656,8 +657,17 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDiskActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-        String path = txtCurrentDir2.getText();
-        treeController.searchFile(path);
+        //Se toma la direccion del FILE
+        String currentPath = txtCurrentDir2.getText();
+        //Se recupera el FILE que quiero modificar
+        MyFile file =  treeController.searchFile(currentPath);
+        System.out.println(file.getText());  //VER CONTENIDO ANTES 
+        //Se toma el texto modificado 
+        String newText = jTextArea.getText();
+        //Se actualiza el FILE con la nueva informacion
+        file.setText(newText);
+        //Prueba de busqueda de un file
+            System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
