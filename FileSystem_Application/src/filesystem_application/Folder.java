@@ -4,6 +4,7 @@
  */
 package filesystem_application;
 
+import Model.MyFile;
 import java.util.ArrayList;
 
 /**
@@ -16,9 +17,9 @@ public class Folder {
     protected Folder father; // Folder father 
     protected String path; // folder direccion 
     protected ArrayList<Folder> folders; // Folders in this folder
-    protected ArrayList<File> files;  // Files in this folder
+    protected ArrayList<MyFile> files;  // Files in this folder
     
-    public Folder(String name, boolean root, Folder father, String path, ArrayList<Folder> folders, ArrayList<File> files){
+    public Folder(String name, boolean root, Folder father, String path, ArrayList<Folder> folders, ArrayList<MyFile> files){
         this.name = name;
         this.root = root;
         this.father = father;
@@ -71,15 +72,15 @@ public class Folder {
         this.folders.add(folders);
     }
     
-    public ArrayList<File> getFiles(){
+    public ArrayList<MyFile> getFiles(){
         return files;
     }
     
-    public void setFiles(ArrayList<File>  files){
+    public void setFiles(ArrayList<MyFile>  files){
         this.files = files;
     }
     
-    public void addFiles(File  files){
+    public void addFiles(MyFile  files){
         this.files.add(files);
     }
     
