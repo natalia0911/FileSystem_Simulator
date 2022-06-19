@@ -9,7 +9,6 @@ package View;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 
 import Controller.Disco;
 
@@ -62,21 +61,21 @@ public class FileSystem_Window extends javax.swing.JFrame {
         btnCreateFile = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtFileName1 = new javax.swing.JTextField();
+        txtFileName = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         lblCurrentDir = new javax.swing.JLabel();
         txtCurrentDir = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
         txtFolderName = new javax.swing.JTextField();
-        btnAdd = new javax.swing.JButton();
+        btnAddFolder = new javax.swing.JButton();
         lblAdd = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        lblCurrentDir2 = new javax.swing.JLabel();
+        txtCurrentDir2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        jTextArea = new javax.swing.JTextArea();
+        btnSaveChanges = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -211,7 +210,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(250, Short.MAX_VALUE)
-                    .addComponent(txtFileName1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(60, 60, 60)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -233,7 +232,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(38, 38, 38)
-                    .addComponent(txtFileName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(369, Short.MAX_VALUE)))
         );
 
@@ -255,10 +254,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
             }
         });
 
-        btnAdd.setText("Add folder");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnAddFolder.setText("Add folder");
+        btnAddFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAddFolderActionPerformed(evt);
             }
         });
 
@@ -281,7 +280,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtFolderName, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAdd))
+                                .addComponent(btnAddFolder))
                             .addComponent(txtCurrentDir, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -295,7 +294,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFolderName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd)
+                    .addComponent(btnAddFolder)
                     .addComponent(lblAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
                 .addComponent(btnDelete)
@@ -304,21 +303,26 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("MKDIR", jPanel1);
 
-        jLabel3.setText("Current file: ");
+        lblCurrentDir2.setText("Current file: ");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtCurrentDir2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtCurrentDir2ActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Text:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        jTextArea.setColumns(20);
+        jTextArea.setRows(5);
+        jScrollPane2.setViewportView(jTextArea);
 
-        jButton1.setText("Save");
+        btnSaveChanges.setText("Save changes");
+        btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -328,28 +332,28 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGap(84, 84, 84)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                    .addComponent(lblCurrentDir2))
                 .addGap(39, 39, 39)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSaveChanges)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addComponent(txtCurrentDir2))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCurrentDir2)
+                    .addComponent(txtCurrentDir2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addComponent(jButton1)
-                .addContainerGap(209, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addComponent(btnSaveChanges)
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("MODFILE", jPanel4);
@@ -451,18 +455,14 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton2)))
-                .addContainerGap(332, Short.MAX_VALUE))
+                    .addComponent(jButton2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,11 +471,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addGap(86, 86, 86)
                 .addComponent(jButton2)
-                .addGap(27, 27, 27))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("FIND", jPanel6);
@@ -543,12 +543,13 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         
         txtCurrentDir.setText(jTree.getSelectionPath().toString());
+        txtCurrentDir2.setText(jTree.getSelectionPath().toString());
     }//GEN-LAST:event_jTreeValueChanged
 
     private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
-        String filename = txtFileExtension.getText(); 
-        DefaultMutableTreeNode newFile = createNode(filename);
-        System.out.println(newFile.getUserObjectPath());
+        String filename =txtFileName.getText()+"."+txtFileExtension.getText(); 
+        System.out.println(filename);
+        createNode(filename);  
         
     }//GEN-LAST:event_btnCreateFileActionPerformed
 
@@ -556,14 +557,15 @@ public class FileSystem_Window extends javax.swing.JFrame {
         deteleNode();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String filename = txtFileExtension.getText(); 
-        createNode(filename);  
-    }//GEN-LAST:event_btnAddActionPerformed
+    private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
+        String filename = txtFolderName.getText(); 
+        DefaultMutableTreeNode newFile = createNode(filename);
+        System.out.println(newFile.getUserObjectPath());  
+    }//GEN-LAST:event_btnAddFolderActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtCurrentDir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDir2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtCurrentDir2ActionPerformed
 
     private void txtCurrentDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDirActionPerformed
         // TODO add your handling code here:
@@ -576,6 +578,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Disco.createTxtFile();
         Disco.writeFromJson();
     }//GEN-LAST:event_btnDiskActionPerformed
+
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        //AQUI
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private boolean isPossibleCreate(String filename){
        
@@ -659,11 +665,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddFolder;
     private javax.swing.JButton btnCreateFile;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDisk;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSaveChanges;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -671,7 +677,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -692,23 +697,24 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextArea jTextContents;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTree jTree;
     private javax.swing.JLabel lblAdd;
     private javax.swing.JLabel lblContents;
     private javax.swing.JLabel lblCreation;
     private javax.swing.JLabel lblCurrentDir;
+    private javax.swing.JLabel lblCurrentDir2;
     private javax.swing.JLabel lblExtention;
     private javax.swing.JLabel lblFileName;
     private javax.swing.JLabel lblModification;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblSize;
     private javax.swing.JTextField txtCurrentDir;
+    private javax.swing.JTextField txtCurrentDir2;
     private javax.swing.JTextField txtFileExtension;
-    private javax.swing.JTextField txtFileName1;
+    private javax.swing.JTextField txtFileName;
     private javax.swing.JTextField txtFolderName;
     private javax.swing.JTextField txtSectorSize;
     private javax.swing.JTextField txtnumberOfSectors;

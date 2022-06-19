@@ -1,6 +1,7 @@
 
 package filesystem_application;
 
+import Model.MyFile;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -151,7 +152,7 @@ public class Disco {
         return cantVacios;
     }
     
-    public static File updateSectores(File file, int total, Boolean agregar){
+    public static MyFile updateSectores(MyFile file, int total, Boolean agregar){
         JSONArray sectores = (JSONArray) discoJson.get("Sectores");
         JSONObject sector;
         JSONArray espacios;
@@ -175,7 +176,7 @@ public class Disco {
     }
        
     
-    public static void modificarContenido(File file, String contenido){
+    public static void modificarContenido(MyFile file, String contenido){
         System.out.println("-----------------------------------------------");
         int sectContenido = contenido.length()/cantEspacios;
         if (contenido.length()%cantEspacios!=0) sectContenido++;
@@ -212,7 +213,7 @@ public class Disco {
         inicializarDisco(3,2);
         //vaciarSector(2);
         //modificarSector(1,"Jacob");
-        File archivo = new File ("Ejemplo", "C:/", new ArrayList<Integer>());
+        MyFile archivo = new MyFile ("Ejemplo", "C:/", new ArrayList<Integer>());
         
         //archivo.sectors.add(1);
         
