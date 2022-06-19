@@ -12,22 +12,13 @@ import java.util.ArrayList;
  * @author Yosua Blanco Diaz
  */
 public class Folder {
-    protected String name; // Folder identifier
-    protected boolean root; // Folder root 
-    protected Folder father; // Folder father 
-    protected String path; // folder direccion 
-    protected ArrayList<Folder> folders; // Folders in this folder
-    protected ArrayList<MyFile> files;  // Files in this folder
+    private String name; // Folder identifier
+    private boolean root; // Folder root 
+    private Folder father; // Folder father 
+    private String path; // folder direccion 
+    private ArrayList<Folder> folders; // Folders in this folder
+    private ArrayList<MyFile> files;  // Files in this folder
     
-    public Folder(String name, boolean root, Folder father, String path, ArrayList<Folder> folders, ArrayList<MyFile> files){
-        this.name = name;
-        this.root = root;
-        this.father = father;
-        this.path = path;
-        this.folders = folders;
-        this.files = files;
-    }
-
     public Folder(String name, boolean root, Folder father, String path) {
         this.name = name;
         this.root = root;
@@ -87,8 +78,8 @@ public class Folder {
         this.folders = folders;
     }
     
-    public void addFolders(Folder folders){
-        this.folders.add(folders);
+    public void addFolders(Folder folder){
+        this.folders.add(folder);
     }
     
     public ArrayList<MyFile> getFiles(){
@@ -110,8 +101,9 @@ public class Folder {
      * @return MyFile
      */
     public MyFile searchFile(String path){
-        
+        System.out.println("folder search");
         for(int i=0;i<files.size();i++){
+            System.out.println(files.get(i).path);
             if (files.get(i).path.equals(path)){
                 return files.get(i);
             }

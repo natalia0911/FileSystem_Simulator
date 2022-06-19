@@ -175,7 +175,9 @@ public class Disco {
         }
         
         file.setText(contenido);
+
         file.setModificationDate(new Date().toString());
+        
         file.setSize(contenido.length());
                       
         for(int i=0;i<file.sectors.size();i++){
