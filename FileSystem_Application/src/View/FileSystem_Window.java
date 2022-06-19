@@ -11,6 +11,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import Controller.Disco;
+import Controller.TreeController;
+import Model.Folder;
+import Model.MyFile;
 
 
 
@@ -26,12 +29,14 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private DefaultTreeModel model;
     private DefaultMutableTreeNode selectedNode;
     private Disco discController;
+    private TreeController treeController;
     
     public FileSystem_Window() {
         initComponents();
-        DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-        //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        //model.insertNodeInto(new DefaultMutableTreeNode("another_child"), root, root.getChildCount());
+        model = (DefaultTreeModel) jTree.getModel();
+        Folder root = new Folder("root",true,"[Root]");
+        treeController = new TreeController(root);
+        treeController.addFolder(root);
         
     }
 
@@ -101,15 +106,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Root");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("root1");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("root2");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("root2.1");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("rootS");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("roots1");
-        treeNode2.add(treeNode3);
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("dummy");
         treeNode1.add(treeNode2);
         jTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -539,8 +536,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
             child = (DefaultMutableTreeNode) selectedNode.getChildAt(i);
             System.out.println(child);
         }
-
-
         
         txtCurrentDir.setText(jTree.getSelectionPath().toString());
         txtCurrentDir2.setText(jTree.getSelectionPath().toString());
@@ -560,7 +555,20 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
         String filename = txtFolderName.getText(); 
         DefaultMutableTreeNode newFile = createNode(filename);
-        System.out.println(newFile.getUserObjectPath());  
+        DefaultMutableTreeNode n = (DefaultMutableTreeNode)selectedNode.getLastLeaf();
+        String rute = treeController.createRute(jTree.getSelectionPath().toString(), filename);
+        Folder newFolder = new Folder(filename, false, rute);
+        MyFile dummy =  new MyFile("dummy", "[Root, dummy]");
+        System.out.println("The rute is: "+rute);
+        treeController.addFolder(newFolder);
+        System.out.println(treeController.toString());
+        System.out.println(treeController.searchFile("[Root, dummy]"));
+        //System.out.println(newFolder);
+        
+        
+        
+        //treeController.searchFile(String path)
+       
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
     private void txtCurrentDir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDir2ActionPerformed
@@ -580,7 +588,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDiskActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-        //AQUI
+        
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private boolean isPossibleCreate(String filename){
