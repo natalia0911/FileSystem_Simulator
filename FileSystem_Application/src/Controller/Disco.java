@@ -175,7 +175,7 @@ public class Disco {
         }
         
         file.setText(contenido);
-        file.setModificationDate(new Date());
+        //file.setModificationDate(new Date()); ESTOOO?
         file.setSize(contenido.length());
                       
         for(int i=0;i<file.sectors.size();i++){

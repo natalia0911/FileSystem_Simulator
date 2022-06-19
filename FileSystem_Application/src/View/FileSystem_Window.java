@@ -605,18 +605,18 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
         String filename = txtFolderName.getText(); 
-        DefaultMutableTreeNode newFile = createNode(filename);
-        DefaultMutableTreeNode n = (DefaultMutableTreeNode)selectedNode.getLastLeaf();
+        //DefaultMutableTreeNode newFile = createNode(filename);
         String rute = treeController.createRute(jTree.getSelectionPath().toString(), filename);
         Folder newFolder = new Folder(filename, false, rute);
-        MyFile dummy =  new MyFile("dummy", "[Root, dummy]");
-        System.out.println("The rute is: "+rute);
         treeController.addFolder(newFolder);
-        System.out.println(treeController.toString());
-        System.out.println(treeController.searchFile("[Root, dummy]"));
+        System.out.println("The rute is: "+rute); 
         //System.out.println(newFolder);
         
-        
+        Folder root = treeController.searchFolder("[Root]"); //Prueba
+        MyFile dummy =  new MyFile("dummy", "[Root, dummy]"); //Prueba
+        root.addFiles(dummy);//Prueba
+        System.out.println(treeController.toString());//Prueba
+        System.out.println(treeController.searchFile("[Root, dummy]"));//Prueba
         
         //treeController.searchFile(String path)
        

@@ -62,6 +62,15 @@ public class TreeController {
         return null;
         
     }
+    
+    public Folder searchFolder(String path){
+        for(int i=0;i<folders.size();i++){
+            if(folders.get(i).getPath().equals(path)){
+                return folders.get(i);
+            }
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
