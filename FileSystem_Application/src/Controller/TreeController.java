@@ -23,6 +23,7 @@ public class TreeController {
         this.folders = new ArrayList(); 
     }
 
+    
     public ArrayList<Folder> getFolders() {
         return folders;
     }
@@ -67,5 +68,6 @@ public class TreeController {
         return "TreeController{" + "folders=" + folders + ", root=" + root + '}';
     }
     
-    
+
 }
+
