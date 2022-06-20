@@ -849,7 +849,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "The file was Successfully created!");
                 
                 //ESCRIBIR EN DISCO AQUI
-            
+                Disco.modificarContenido(newFile, txt); 
             }
             else{
                 JOptionPane.showMessageDialog(null, "You must provide a valid name");
