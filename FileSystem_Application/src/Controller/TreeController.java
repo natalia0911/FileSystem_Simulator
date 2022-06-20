@@ -46,6 +46,24 @@ public class TreeController {
         return rute + ", "+ name + "]";
     }
 
+    public boolean hasExtension(String pathFile){
+        String[] parts = pathFile.split(",");
+        String filename = parts[parts.length-1];
+        String[] extension =  filename.split("\\.");
+
+        if (extension.length>1){
+            System.out.println("true");
+            return true;
+        }
+        System.out.println("false");
+        return false;
+    }
+    
+    public boolean namehasExtension(String name){;
+        String[] extension =  name.split("\\.");
+        return (extension.length>1);
+    }
+       
     public MyFile searchFile(String path){
         for(int i=0;i<folders.size();i++){
             ArrayList<MyFile> files = folders.get(i).getFiles();

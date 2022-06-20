@@ -77,8 +77,6 @@ public class MyFile {
         this.size = size;
     }
     
-    
-
     public String getText() {
         return text;
     }
@@ -122,7 +120,7 @@ public class MyFile {
     public void setModificationDate(String modificationDate) {
         this.modificationDate = modificationDate;
     }
-
+    
     @Override
     public String toString() {
         return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';
