@@ -16,6 +16,7 @@ import Model.Folder;
 import Model.MyFile;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.tree.MutableTreeNode;
 
 
 /**
@@ -811,12 +812,16 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeValueChanged
-        selectedNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-        txtCurrentDir.setText(jTree.getSelectionPath().toString());
-        txtCurrentDir2.setText(jTree.getSelectionPath().toString());
         
-        MyFile file =  treeController.searchFile(jTree.getSelectionPath().toString());
-        if (file!= null){jTextAreaContent.setText(file.getText());}
+        selectedNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
+        //System.out.println(selectedNode);
+        if (selectedNode!=null){
+            txtCurrentDir.setText(jTree.getSelectionPath().toString());
+            txtCurrentDir2.setText(jTree.getSelectionPath().toString());
+
+            MyFile file =  treeController.searchFile(jTree.getSelectionPath().toString());
+            if (file!= null){jTextAreaContent.setText(file.getText());}
+        }
         
     }//GEN-LAST:event_jTreeValueChanged
 
@@ -914,21 +919,35 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         //Se toma la direccion del FILE
         String currentPath = txtCurrentDir2.getText();
-       
+        
         if (treeController.hasExtension(currentPath) && selectedNode!= null){
-            //Se recupera el FILE que quiero modificar
-            MyFile file =  treeController.searchFile(currentPath);
-            System.out.println(file.getText());  //VER CONTENIDO ANTES 
-            //Se toma el texto modificado 
-            String newText = jTextArea.getText();
-            //Se actualiza el FILE con la nueva informacion
-            file.setText(newText);
-            //Prueba de busqueda de un file
-            //System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
+            int resp = JOptionPane.showConfirmDialog(null, "Do you want save changes?",
+                    "YES_NO_OPTION", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE); 
+
+            switch (resp) {
+                case 0://yes
+                    //Se recupera el FILE que quiero modificar
+                    MyFile file =  treeController.searchFile(currentPath);
+                    System.out.println(file.getText());  //VER CONTENIDO ANTES 
+                    //Se toma el texto modificado 
+                    String newText = jTextArea.getText();
+                    //Se actualiza el FILE con la nueva informacion
+                    file.setText(newText);
+                    //Prueba de busqueda de un file
+                    //System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
+                    JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
+                    break;
+                case 1: 
+                    JOptionPane.showMessageDialog(null, "The file was not modified!");
+                    break;
+
+            }
         }
         else{
-             JOptionPane.showMessageDialog(null, "You must select a file");
+            JOptionPane.showMessageDialog(null, "You must select a file");
         }
+        
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
