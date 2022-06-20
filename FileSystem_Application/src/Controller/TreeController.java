@@ -8,6 +8,8 @@ package Controller;
 import Model.Folder;
 import Model.MyFile;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -88,6 +90,61 @@ public class TreeController {
         return null; 
     }
 
+    
+    public ArrayList<MyFile> getFiles(String name){
+        String[] parts = name.split("\\.");
+        ArrayList<MyFile> getfiles = new ArrayList();
+        
+        if (parts.length>1){
+            if (parts[0].equals("*")){
+                System.out.println("Hola1");
+                Pattern pat = Pattern.compile(parts[1]); //Busca solo por extension
+                for(int i=0;i<folders.size();i++){
+                    ArrayList<MyFile> files = folders.get(i).getFiles();
+                    for (int j=0; j<files.size(); j++){
+                        System.out.println(files.get(j).getExt()); 
+                        Matcher mat = pat.matcher(files.get(j).getExt());   
+                        if (mat.matches()) {
+                            getfiles.add(files.get(j));
+                        }
+                    }
+                }
+            }
+            else {
+                System.out.println("Hola2");
+                Pattern pat = Pattern.compile(name);
+                for(int i=0;i<folders.size();i++){
+                    ArrayList<MyFile> files = folders.get(i).getFiles();
+                    for (int j=0; j<files.size(); j++){
+                        System.out.println(files.get(j).getName());  //Busca por nombre y extension
+                        Matcher mat = pat.matcher(files.get(j).getName());   
+                        if (mat.matches()) {
+                            getfiles.add(files.get(j));
+                        }  
+                    }
+                }
+            }
+        }
+        else{
+            System.out.println("Hola3");
+            Pattern pat = Pattern.compile(name);
+             for(int i=0;i<folders.size();i++){
+                ArrayList<MyFile> files = folders.get(i).getFiles();
+                for (int j=0; j<files.size(); j++){
+                    System.out.println(files.get(j).getNameWhioutExt()); //Busca por nombre sin extension 
+                    Matcher mat = pat.matcher(files.get(j).getNameWhioutExt());   
+                    if (mat.matches()) {
+                         getfiles.add(files.get(j));
+                    } 
+                }
+            }
+        }
+        
+        return getfiles;
+         
+    }
+    
+    
     @Override
     public String toString() {
         return "TreeController{" + "folders=" + folders + ", root=" + root + '}';

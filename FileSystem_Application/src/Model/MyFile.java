@@ -121,6 +121,16 @@ public class MyFile {
         this.modificationDate = modificationDate;
     }
     
+    public String getNameWhioutExt(){
+        String[] name =  this.name.split("\\.");
+        return name[0];
+    }
+    
+    public String getExt(){
+        String[] name =  this.name.split("\\.");
+        return name[1];
+    }
+    
     @Override
     public String toString() {
         return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';
