@@ -36,6 +36,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private TreeController treeController;
     //Auxliars nodes for copy a node inside to other node
     private DefaultMutableTreeNode originNode=null;
+    private DefaultMutableTreeNode original=null;
     private DefaultMutableTreeNode destinationNode=null;
     
     public FileSystem_Window() {
@@ -175,7 +176,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea = new javax.swing.JTextArea();
         btnSaveChanges = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -451,13 +451,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Consult");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -468,15 +461,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(lblCurrentDir2))
                 .addGap(39, 39, 39)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addComponent(txtCurrentDir2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSaveChanges)
-                        .addGap(39, 39, 39)))
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveChanges)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                        .addComponent(txtCurrentDir2)))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,11 +479,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSaveChanges)
-                    .addComponent(jButton2))
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(btnSaveChanges)
+                .addContainerGap(324, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("MODFILE", jPanel4);
@@ -706,6 +694,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
         });
 
         btnMove.setText("Move");
+        btnMove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -824,9 +817,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
         if (selectedNode!=null){
             txtCurrentDir.setText(jTree.getSelectionPath().toString());
             txtCurrentDir2.setText(jTree.getSelectionPath().toString());
-
+            
             MyFile file =  treeController.searchFile(jTree.getSelectionPath().toString());
-            if (file!= null){jTextAreaContent.setText(file.getText());}
+            if (file!= null){
+                jTextAreaContent.setText(file.getText());
+                jTextArea.setText(file.getText());
+            }
         }
         
     }//GEN-LAST:event_jTreeValueChanged
@@ -849,14 +845,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 //Se lo agrego al nodo padre
                 folder.addFiles(newFile);
                 //Crea el nodo en el Jtree
-
                 createNode(filename);  
-                //Prueba de busqueda de un file
-                System.out.println(treeController.searchFile(newFile.getPath()).getPath());
+                JOptionPane.showMessageDialog(null, "The file was Successfully created!");
                 
-                //Escribir en disco virtual
-                
-            
+                //ESCRIBIR EN DISCO AQUI
             
             }
             else{
@@ -949,6 +941,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     Date date = new Date();
                     file.setModificationDate(formatter.format(date));
                     JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
+                    jTextArea.setText(file.getText());
                     break;
                 case 1: 
                     JOptionPane.showMessageDialog(null, "The file was not modified!");
@@ -1050,6 +1043,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
             originNode = (DefaultMutableTreeNode) selectedNode.clone();
+            original = selectedNode;
+            
             DefaultMutableTreeNode aux;
             
             for (int i=0;i<jTree.getModel().getChildCount(selectedNode);i++){
@@ -1089,11 +1084,41 @@ public class FileSystem_Window extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFindActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MyFile file = treeController.searchFile(jTree.getSelectionPath().toString());
-        jTextArea.setText(file.getText());
+    
+    private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
+
+        DefaultMutableTreeNode aux = null;
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){         
+            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+            
+            System.out.println("Origen: "+originNode.toString());
+            System.out.println("Destino: "+destinationNode.toString());
+            
+            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
+                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
+                
+                if (aux.toString().equals(originNode.toString())){
+                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION", 
+                                                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    switch (resp) {
+                        case 0://yes
+                            destinationNode.remove(i); break;
+                        case 1: 
+                            originNode=null; destinationNode=null; return;
+                    }
+                }
+            }
+            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
+            model.removeNodeFromParent(original);
+            model.reload();
+            //CAMBIAR RUTAS 
+            
+        }
+        //make these auxiliars nodes to null.
+        originNode=null;
+        destinationNode=null; 
+    }//GEN-LAST:event_btnMoveActionPerformed
 
     private boolean isPossibleCreate(String filename){
        
@@ -1184,7 +1209,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JButton btnMove;
     private javax.swing.JButton btnSaveChanges;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCopyGetDestination;
     private javax.swing.JButton jButtonCopyGetOrigin1;
