@@ -212,6 +212,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jTextFieldPathFileOut = new javax.swing.JTextField();
         jButtonCopyPC_V = new javax.swing.JButton();
+        btnMove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -671,7 +672,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setText("Copy Virtual to Virtual");
+        jLabel15.setText("Copy Virtual to Virtual and Move");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setText("Copy Virtual to PC");
@@ -704,6 +705,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
             }
         });
 
+        btnMove.setText("Move");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -735,7 +738,10 @@ public class FileSystem_Window extends javax.swing.JFrame {
                                 .addComponent(jButtonCopyV_PC))))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonCopy, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(jButtonCopy)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnMove))
                             .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldPathCopy, javax.swing.GroupLayout.Alignment.LEADING)
@@ -764,7 +770,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     .addComponent(jTextFieldDestinationPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonCopyGetDestination))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonCopy)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCopy)
+                    .addComponent(btnMove))
                 .addGap(56, 56, 56)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -812,11 +820,14 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
     private void jTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeValueChanged
         selectedNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-        txtCurrentDir.setText(jTree.getSelectionPath().toString());
-        txtCurrentDir2.setText(jTree.getSelectionPath().toString());
-        
-        MyFile file =  treeController.searchFile(jTree.getSelectionPath().toString());
-        if (file!= null){jTextAreaContent.setText(file.getText());}
+
+        if (selectedNode!=null){
+            txtCurrentDir.setText(jTree.getSelectionPath().toString());
+            txtCurrentDir2.setText(jTree.getSelectionPath().toString());
+
+            MyFile file =  treeController.searchFile(jTree.getSelectionPath().toString());
+            if (file!= null){jTextAreaContent.setText(file.getText());}
+        }
         
     }//GEN-LAST:event_jTreeValueChanged
 
@@ -921,19 +932,29 @@ public class FileSystem_Window extends javax.swing.JFrame {
         String currentPath = txtCurrentDir2.getText();
        
         if (treeController.hasExtension(currentPath) && selectedNode!= null){
-            //Se recupera el FILE que quiero modificar
-            MyFile file =  treeController.searchFile(currentPath);
-            System.out.println(file.getText());  //VER CONTENIDO ANTES 
-            //Se toma el texto modificado 
-            String newText = jTextArea.getText();
-            //Se actualiza el FILE con la nueva informacion
-            file.setText(newText);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-            Date date = new Date();
-            file.setModificationDate(formatter.format(date));
-            
-            //Prueba de busqueda de un file
-            //System.out.println(treeController.searchFile(file.getPath()).getText());   //VER CONTENIDO DESPUES
+            int resp = JOptionPane.showConfirmDialog(null, "Do you want save changes?",
+                    "YES_NO_OPTION", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE); 
+
+            switch (resp) {
+                case 0://yes
+                    //Se recupera el FILE que quiero modificar
+                    MyFile file =  treeController.searchFile(currentPath);
+                    System.out.println(file.getText());  //VER CONTENIDO ANTES 
+                    //Se toma el texto modificado 
+                    String newText = jTextArea.getText();
+                    //Se actualiza el FILE con la nueva informacion
+                    file.setText(newText);
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+                    Date date = new Date();
+                    file.setModificationDate(formatter.format(date));
+                    JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
+                    break;
+                case 1: 
+                    JOptionPane.showMessageDialog(null, "The file was not modified!");
+                    break;
+
+            }
         }
         else{
              JOptionPane.showMessageDialog(null, "You must select a file");
@@ -1160,6 +1181,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDisk;
     private javax.swing.JButton btnFind;
+    private javax.swing.JButton btnMove;
     private javax.swing.JButton btnSaveChanges;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
