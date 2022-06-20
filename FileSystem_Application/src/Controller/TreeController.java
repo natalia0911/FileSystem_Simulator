@@ -97,12 +97,10 @@ public class TreeController {
         
         if (parts.length>1){
             if (parts[0].equals("*")){
-                System.out.println("Hola1");
                 Pattern pat = Pattern.compile(parts[1]); //Busca solo por extension
                 for(int i=0;i<folders.size();i++){
                     ArrayList<MyFile> files = folders.get(i).getFiles();
                     for (int j=0; j<files.size(); j++){
-                        System.out.println(files.get(j).getExt()); 
                         Matcher mat = pat.matcher(files.get(j).getExt());   
                         if (mat.matches()) {
                             getfiles.add(files.get(j));
@@ -111,12 +109,10 @@ public class TreeController {
                 }
             }
             else {
-                System.out.println("Hola2");
                 Pattern pat = Pattern.compile(name);
                 for(int i=0;i<folders.size();i++){
                     ArrayList<MyFile> files = folders.get(i).getFiles();
                     for (int j=0; j<files.size(); j++){
-                        System.out.println(files.get(j).getName());  //Busca por nombre y extension
                         Matcher mat = pat.matcher(files.get(j).getName());   
                         if (mat.matches()) {
                             getfiles.add(files.get(j));
@@ -126,12 +122,10 @@ public class TreeController {
             }
         }
         else{
-            System.out.println("Hola3");
             Pattern pat = Pattern.compile(name);
              for(int i=0;i<folders.size();i++){
                 ArrayList<MyFile> files = folders.get(i).getFiles();
                 for (int j=0; j<files.size(); j++){
-                    System.out.println(files.get(j).getNameWhioutExt()); //Busca por nombre sin extension 
                     Matcher mat = pat.matcher(files.get(j).getNameWhioutExt());   
                     if (mat.matches()) {
                          getfiles.add(files.get(j));

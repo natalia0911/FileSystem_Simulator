@@ -14,6 +14,8 @@ import Controller.Disco;
 import Controller.TreeController;
 import Model.Folder;
 import Model.MyFile;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 
 /**
@@ -25,6 +27,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     /**
      * Creates new form FileSystem_Window
      */
+    private DefaultListModel<String> listModel;
     private DefaultTreeModel model;
     private DefaultMutableTreeNode selectedNode;
     private Disco discController;
@@ -35,7 +38,8 @@ public class FileSystem_Window extends javax.swing.JFrame {
     
     public FileSystem_Window() {
         initComponents();
-        DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+        model = (DefaultTreeModel) jTree.getModel();
+        listModel =  new DefaultListModel();
         //////////////////////////////////////////////////////////////
     
         Folder root = new Folder("root",true,"[Root]");
@@ -185,7 +189,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         txtFind = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jListRutes = new javax.swing.JList<>();
         btnFind = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -564,12 +568,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         jLabel13.setText("Find:");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane4.setViewportView(jList1);
+        jScrollPane4.setViewportView(jListRutes);
 
         btnFind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/lupa.png"))); // NOI18N
         btnFind.addActionListener(new java.awt.event.ActionListener() {
@@ -1051,8 +1050,13 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCopyPC_VActionPerformed
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+        listModel.clear();
         String find = txtFind.getText();
-        
+        ArrayList<MyFile> getfiles = treeController.getFiles(find);
+        jListRutes.setModel(listModel);
+        for (MyFile f:getfiles){
+            listModel.addElement(f.getPath());
+        }
     }//GEN-LAST:event_btnFindActionPerformed
 
     private boolean isPossibleCreate(String filename){
@@ -1165,7 +1169,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jListRutes;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
