@@ -38,17 +38,18 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private DefaultMutableTreeNode originNode=null;
     private DefaultMutableTreeNode original=null;
     private DefaultMutableTreeNode destinationNode=null;
+    private String destinationPath;
     
     public FileSystem_Window() {
         initComponents();
         model = (DefaultTreeModel) jTree.getModel();
         listModel =  new DefaultListModel();
         //////////////////////////////////////////////////////////////
-    
+        /*
         Folder root = new Folder("root",true,"[Root]");
         treeController = new TreeController(root);
         treeController.addFolder(root);
-        
+        */
        
         //////////////////////////////////////////////////////////////
         /*
@@ -83,7 +84,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         treeController.addFolder(myfolder3);
         */
         
-        //pruebas();
+        pruebas();
         
     }
     
@@ -128,8 +129,12 @@ public class FileSystem_Window extends javax.swing.JFrame {
         //System.out.println(treeController.searchFolder(F22.getPath())); 
         //System.out.println(treeController.searchFile(fileXX.getPath()));  
         
-        treeController.getFiles("File1.txt");
-        
+        //treeController.getFiles("File1.txt");
+        System.out.println("FOLDER PADRE F12 -->" +F12.getPath());
+        System.out.println("FILE HIJO -->"+ file2.getPath());
+        treeController.deleteFile(file2.getPath());
+        //treeController.deleteFolder(F12.getPath());
+        //treeController.getFolders().get(0).getFiles().get(0).getFather();
         
     }
 
@@ -194,7 +199,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jListRutes = new javax.swing.JList<>();
         btnFind = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -600,19 +604,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("FIND", jPanel6);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("MOVE", jPanel8);
-
         jLabel3.setText("Path to Copy:");
 
         jLabel14.setText("Destination Path");
@@ -827,50 +818,200 @@ public class FileSystem_Window extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTreeValueChanged
 
-    private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
-        
-        if (selectedNode!= null && (treeController.namehasExtension(selectedNode.toString())==false)){ 
-            String filename = txtFileName.getText(); 
-            if ((!filename.equals("")) && (treeController.namehasExtension(filename))){
-                //Se toma la direccion actual
-                String currentPath = jTree.getSelectionPath().toString();
-                //Se recupera el folder de dicha ruta
-                Folder folder =  treeController.searchFolder(currentPath);
-                //Se crea la ruta para el file a insertar
-                String rute = treeController.createRute(currentPath, filename);
-                //Tomar el contenido
-                String txt = jTextContents.getText();
-                //Creo qie nuevo file con el nombre dado y la ruta 
-                MyFile newFile = new MyFile(filename, rute,txt);
-                //Se lo agrego al nodo padre
-                folder.addFiles(newFile);
-                //Crea el nodo en el Jtree
-                createNode(filename);  
-                JOptionPane.showMessageDialog(null, "The file was Successfully created!");
-                
-                //ESCRIBIR EN DISCO AQUI
-            
+    private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
+
+        DefaultMutableTreeNode aux = null;
+
+        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){
+            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+
+            System.out.println("Origen: "+originNode.toString());
+            System.out.println("Destino: "+destinationNode.toString());
+
+            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
+                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
+
+                if (aux.toString().equals(originNode.toString())){
+                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    switch (resp) {
+                        case 0://yes
+                        destinationNode.remove(i); break;
+                        case 1:
+                        originNode=null; destinationNode=null; return;
+                    }
+                }
             }
-            else{
-                JOptionPane.showMessageDialog(null, "You must provide a valid name");
+            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
+            model.removeNodeFromParent(original);
+            model.reload();
+            //CAMBIAR RUTAS
+
+        }
+        //make these auxiliars nodes to null.
+        originNode=null;
+        destinationNode=null;
+    }//GEN-LAST:event_btnMoveActionPerformed
+
+    private void jButtonCopyPC_VActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyPC_VActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyPC_VActionPerformed
+
+    private void jTextFieldPathFileOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathFileOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPathFileOutActionPerformed
+
+    private void jButtonCopyV_PCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyV_PCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCopyV_PCActionPerformed
+
+    private void jTextFieldDestinationPathOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDestinationPathOutActionPerformed
+
+    private void jButtonCopyGetOrigin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetOrigin1ActionPerformed
+
+        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
+            originNode = (DefaultMutableTreeNode) selectedNode.clone();
+            original = selectedNode;
+
+            DefaultMutableTreeNode aux;
+
+            for (int i=0;i<jTree.getModel().getChildCount(selectedNode);i++){
+                aux= (DefaultMutableTreeNode) jTree.getModel().getChild(selectedNode, i);
+                originNode.insert(copyNode(aux),originNode.getChildCount());
+            }
+            jTextFieldPathCopy.setText(jTree.getSelectionPath().toString());
+
+        }else{
+            destinationNode=null;
+        }
+    }//GEN-LAST:event_jButtonCopyGetOrigin1ActionPerformed
+
+    private void jButtonCopyGetDestinationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetDestinationActionPerformed
+
+        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
+            destinationNode = selectedNode;
+            destinationPath = jTree.getSelectionPath().toString();
+            System.out.println(destinationPath);
+            jTextFieldDestinationPath.setText(jTree.getSelectionPath().toString());
+
+        }else{
+            destinationNode=null;
+        }
+    }//GEN-LAST:event_jButtonCopyGetDestinationActionPerformed
+
+    private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
+        // TODO add your handling code here:
+        DefaultMutableTreeNode aux = null;
+
+        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){
+            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
+
+            System.out.println("Origen: "+originNode.toString());
+            System.out.println("Destino: "+destinationNode.toString());
+
+            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
+                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
+
+                if (aux.toString().equals(originNode.toString())){
+                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    switch (resp) {
+                        case 0://yes
+                        destinationNode.remove(i); break;
+                        case 1:
+                        originNode=null; destinationNode=null; return;
+                    }
+                }
+            }
+            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
+        }
+        //make these auxiliars nodes to null.
+        originNode=null;
+        destinationNode=null;
+
+    }//GEN-LAST:event_jButtonCopyActionPerformed
+
+    private void jTextFieldDestinationPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDestinationPathActionPerformed
+
+    private void jTextFieldPathCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathCopyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPathCopyActionPerformed
+
+    private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+        listModel.clear();
+        String find = txtFind.getText();
+        ArrayList<MyFile> getfiles = treeController.getFiles(find);
+        jListRutes.setModel(listModel);
+        for (MyFile f:getfiles){
+            listModel.addElement(f.getPath());
+        }
+    }//GEN-LAST:event_btnFindActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+
+        //System.out.println( jTree.getSelectionPath().toString());
+        MyFile selectedFile = treeController.searchFile(jTree.getSelectionPath().toString());
+        lblName.setText(selectedFile.getName());
+        lblCreation.setText(selectedFile.getCreationDate());
+        lblModification.setText(selectedFile.getModificationDate());
+        lblSize.setText(Integer.toString(selectedFile.getSize()));
+        lblContents.setText(selectedFile.getText());
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    /**
+     * Edita el contenido de un archivo
+     * @param evt 
+     */
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        //Se toma la direccion del FILE
+        String currentPath = txtCurrentDir2.getText();
+
+        if (treeController.hasExtension(currentPath) && selectedNode!= null){
+            int resp = JOptionPane.showConfirmDialog(null, "Do you want save changes?",
+                "YES_NO_OPTION", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+            switch (resp) {
+                case 0://yes
+                //Se recupera el FILE que quiero modificar
+                MyFile file =  treeController.searchFile(currentPath);
+                System.out.println(file.getText());  //VER CONTENIDO ANTES
+                //Se toma el texto modificado
+                String newText = jTextArea.getText();
+                //Se actualiza el FILE con la nueva informacion
+                file.setText(newText);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                file.setModificationDate(formatter.format(date));
+                JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
+                jTextArea.setText(file.getText());
+                break;
+                case 1:
+                JOptionPane.showMessageDialog(null, "The file was not modified!");
+                break;
+
             }
         }
         else{
-             JOptionPane.showMessageDialog(null, "You must select a father folder");
+            JOptionPane.showMessageDialog(null, "You must select a file");
         }
-        
-    }//GEN-LAST:event_btnCreateFileActionPerformed
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        deteleNode();
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void txtCurrentDir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDir2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCurrentDir2ActionPerformed
 
     private void btnAddFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFolderActionPerformed
         if (selectedNode!= null){
-            String filename = txtFolderName.getText(); 
+            String filename = txtFolderName.getText();
             System.out.println(treeController.namehasExtension(filename));
-            if (!filename.equals("")){  
-                 
+            if (!filename.equals("")){
+
                 //Se toma la direccion actual
                 String currentPath = jTree.getSelectionPath().toString();
                 //Se recupera el folder de dicha ruta
@@ -880,32 +1021,66 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 //Creo el nuevo folder con la ruta padre
                 Folder newFolder = new Folder(filename, false, rute);
 
-                //Agrego el folder al treecontroller 
+                //Agrego el folder al treecontroller
                 treeController.addFolder(newFolder);
-                //Agrego el folder a la ruta padre 
+                //Agrego el folder a la ruta padre
                 folder.addFolders(newFolder);//Prueba
                 //Crea el nodo en el Jtree
                 createNode(filename);
                 //Prueba de busqueda de un folder
-                //System.out.println(treeController.searchFolder(newFolder.getPath()).getPath()); 
+                //System.out.println(treeController.searchFolder(newFolder.getPath()).getPath());
             }
             else{
                 JOptionPane.showMessageDialog(null, "You must provide a name");
             }
         }
         else{
-             JOptionPane.showMessageDialog(null, "You must select a father folder");
+            JOptionPane.showMessageDialog(null, "You must select a father folder");
         }
-        
+
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
-    private void txtCurrentDir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDir2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCurrentDir2ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        deteleNode();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtCurrentDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCurrentDirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCurrentDirActionPerformed
+
+    private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
+
+        if (selectedNode!= null && (treeController.namehasExtension(selectedNode.toString())==false)){
+            String filename = txtFileName.getText();
+            if ((!filename.equals("")) && (treeController.namehasExtension(filename))){
+                //Se toma la direccion actual
+                String currentPath = jTree.getSelectionPath().toString();
+                //Se recupera el folder de dicha ruta
+                Folder folder =  treeController.searchFolder(currentPath);
+                //Se crea la ruta para el file a insertar
+                String rute = treeController.createRute(currentPath, filename);
+                //Tomar el contenido
+                String txt = jTextContents.getText();
+                //Creo qie nuevo file con el nombre dado y la ruta
+                MyFile newFile = new MyFile(filename, rute,txt);
+                //Se lo agrego al nodo padre
+                folder.addFiles(newFile);
+                //Crea el nodo en el Jtree
+                createNode(filename);
+                JOptionPane.showMessageDialog(null, "The file was Successfully created!");
+
+                //ESCRIBIR EN DISCO AQUI
+
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "You must provide a valid name");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "You must select a father folder");
+        }
+
+    }//GEN-LAST:event_btnCreateFileActionPerformed
 
     private void btnDiskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiskActionPerformed
         String sectors =txtnumberOfSectors.getText();
@@ -914,108 +1089,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
         //Disco.createTxtFile();
         //Disco.writeFromJson();
     }//GEN-LAST:event_btnDiskActionPerformed
-
-    /**
-     * Edita el contenido de un archivo
-     * @param evt 
-     */
-    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
-        //Se toma la direccion del FILE
-        String currentPath = txtCurrentDir2.getText();
-       
-        if (treeController.hasExtension(currentPath) && selectedNode!= null){
-            int resp = JOptionPane.showConfirmDialog(null, "Do you want save changes?",
-                    "YES_NO_OPTION", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE); 
-
-            switch (resp) {
-                case 0://yes
-                    //Se recupera el FILE que quiero modificar
-                    MyFile file =  treeController.searchFile(currentPath);
-                    System.out.println(file.getText());  //VER CONTENIDO ANTES 
-                    //Se toma el texto modificado 
-                    String newText = jTextArea.getText();
-                    //Se actualiza el FILE con la nueva informacion
-                    file.setText(newText);
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-                    Date date = new Date();
-                    file.setModificationDate(formatter.format(date));
-                    JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
-                    jTextArea.setText(file.getText());
-                    break;
-                case 1: 
-                    JOptionPane.showMessageDialog(null, "The file was not modified!");
-                    break;
-
-            }
-        }
-        else{
-             JOptionPane.showMessageDialog(null, "You must select a file");
-        }
-    }//GEN-LAST:event_btnSaveChangesActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-       
-        //System.out.println( jTree.getSelectionPath().toString());
-        MyFile selectedFile = treeController.searchFile(jTree.getSelectionPath().toString());
-        lblName.setText(selectedFile.getName());
-        lblCreation.setText(selectedFile.getCreationDate());
-        lblModification.setText(selectedFile.getModificationDate());
-        lblSize.setText(Integer.toString(selectedFile.getSize()));
-        lblContents.setText(selectedFile.getText());
-        
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jTextFieldPathCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathCopyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPathCopyActionPerformed
-
-    private void jTextFieldDestinationPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldDestinationPathActionPerformed
-
-    private void jButtonCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyActionPerformed
-        // TODO add your handling code here:
-        DefaultMutableTreeNode aux = null;
-        
-        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){         
-            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-            
-            System.out.println("Origen: "+originNode.toString());
-            System.out.println("Destino: "+destinationNode.toString());
-            
-            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
-                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
-                
-                if (aux.toString().equals(originNode.toString())){
-                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION", 
-                                                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                    switch (resp) {
-                        case 0://yes
-                            destinationNode.remove(i); break;
-                        case 1: 
-                            originNode=null; destinationNode=null; return;
-                    }
-                }
-            }
-            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
-        }
-        //make these auxiliars nodes to null.
-        originNode=null;
-        destinationNode=null; 
-        
-    }//GEN-LAST:event_jButtonCopyActionPerformed
-
-    private void jButtonCopyGetDestinationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetDestinationActionPerformed
-        
-        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
-            destinationNode = selectedNode;
-            jTextFieldDestinationPath.setText(jTree.getSelectionPath().toString());
-            
-        }else{
-            destinationNode=null;
-        }
-    }//GEN-LAST:event_jButtonCopyGetDestinationActionPerformed
 
     
     private DefaultMutableTreeNode copyNode(DefaultMutableTreeNode node){
@@ -1039,87 +1112,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         
     }
     
-    private void jButtonCopyGetOrigin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyGetOrigin1ActionPerformed
-
-        if (selectedNode!=null && selectedNode!=jTree.getModel().getRoot()){
-            originNode = (DefaultMutableTreeNode) selectedNode.clone();
-            original = selectedNode;
-            
-            DefaultMutableTreeNode aux;
-            
-            for (int i=0;i<jTree.getModel().getChildCount(selectedNode);i++){
-                aux= (DefaultMutableTreeNode) jTree.getModel().getChild(selectedNode, i);
-                originNode.insert(copyNode(aux),originNode.getChildCount());
-            }      
-            jTextFieldPathCopy.setText(jTree.getSelectionPath().toString());
-  
-        }else{
-            destinationNode=null;
-        }
-    }//GEN-LAST:event_jButtonCopyGetOrigin1ActionPerformed
-
-    private void jTextFieldDestinationPathOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationPathOutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldDestinationPathOutActionPerformed
-
-    private void jButtonCopyV_PCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyV_PCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonCopyV_PCActionPerformed
-
-    private void jTextFieldPathFileOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathFileOutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPathFileOutActionPerformed
-
-    private void jButtonCopyPC_VActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCopyPC_VActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonCopyPC_VActionPerformed
-
-    private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
-        listModel.clear();
-        String find = txtFind.getText();
-        ArrayList<MyFile> getfiles = treeController.getFiles(find);
-        jListRutes.setModel(listModel);
-        for (MyFile f:getfiles){
-            listModel.addElement(f.getPath());
-        }
-    }//GEN-LAST:event_btnFindActionPerformed
-
     
-    private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
-
-        DefaultMutableTreeNode aux = null;
-        
-        if (destinationNode!=null && originNode!=null && destinationNode.getAllowsChildren()){         
-            DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-            
-            System.out.println("Origen: "+originNode.toString());
-            System.out.println("Destino: "+destinationNode.toString());
-            
-            for (int i=0;i<jTree.getModel().getChildCount(destinationNode);i++){
-                aux = (DefaultMutableTreeNode) jTree.getModel().getChild(destinationNode, i);
-                
-                if (aux.toString().equals(originNode.toString())){
-                    int resp = JOptionPane.showConfirmDialog(null, "Do you want overwrite the file/dir?", "YES_NO_OPTION", 
-                                                            JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                    switch (resp) {
-                        case 0://yes
-                            destinationNode.remove(i); break;
-                        case 1: 
-                            originNode=null; destinationNode=null; return;
-                    }
-                }
-            }
-            model.insertNodeInto(originNode, destinationNode, destinationNode.getChildCount());
-            model.removeNodeFromParent(original);
-            model.reload();
-            //CAMBIAR RUTAS 
-            
-        }
-        //make these auxiliars nodes to null.
-        originNode=null;
-        destinationNode=null; 
-    }//GEN-LAST:event_btnMoveActionPerformed
-
     private boolean isPossibleCreate(String filename){
        
         int cont = selectedNode.getChildCount();
@@ -1240,7 +1233,6 @@ public class FileSystem_Window extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

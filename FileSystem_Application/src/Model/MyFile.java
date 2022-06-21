@@ -131,6 +131,29 @@ public class MyFile {
         return name[1];
     }
     
+    public String getFather(){
+
+        StringBuilder rute= new StringBuilder();
+        String[] name =  this.path.split("\\,");
+        for (int i=0; i<name.length-1; i++){
+            rute.append(name[i]);
+            rute.append(", ");
+        }
+        //System.out.println("rute"+rute);
+        int lastIndex = rute.length()-2;
+        //System.out.println(lastIndex);
+        rute = rute.deleteCharAt(lastIndex);
+        rute.append("]");
+        //String f_rute = rute.toString();
+        lastIndex = rute.length()-2;
+        rute = rute.deleteCharAt(lastIndex);
+        String nrute = rute.toString();
+        //System.out.println("nrute"+nrute);
+        nrute = nrute.replace("  ", " ");
+        System.out.println("Father rute "+nrute);
+        return rute.toString();
+    }
+    
     @Override
     public String toString() {
         return "MyFile{" + "name=" + name + ", path=" + path + ", sectors=" + sectors + ", text=" + text + ", creationDate=" + creationDate + ", modificationDate=" + modificationDate + ", size=" + size + '}';

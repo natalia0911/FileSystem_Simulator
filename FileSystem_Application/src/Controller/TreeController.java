@@ -45,7 +45,7 @@ public class TreeController {
     public String createRute(String parentRoot, String name){
         String[] parts = parentRoot.split("]");
         String rute = parts[0]; // 123
-        return rute + ", "+ name + "]";
+        return rute + ","+ name + "]";
     }
 
     public boolean hasExtension(String pathFile){
@@ -138,6 +138,26 @@ public class TreeController {
          
     }
     
+    public void deleteFile(String path){
+       MyFile file = searchFile(path);
+        System.out.println("FILE ENCONTRADO en deleteFile en controller"+file);
+        System.out.println("file.getFather() en deleteFile en controller"+file.getFather());
+       Folder father =  searchFolder(file.getFather());
+        System.out.println("FOLDER ENCONTRADO en deleteFile en controller"+father);
+       father.removeFile(file);
+       System.out.println("File "+file.getPath()+" removed from father "+father.getPath());
+    }
+    
+    public void deleteFolder(String path){
+        Folder folder =  searchFolder(path);
+        folders.remove(folder);
+        System.out.println("Folder deleted" + folder.getPath());
+    }
+     
+     
+    public void overwriteFileFolder(String name, boolean type){
+        System.out.println("aaah");
+    }
     
     @Override
     public String toString() {

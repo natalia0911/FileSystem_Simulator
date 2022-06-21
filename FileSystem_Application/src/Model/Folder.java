@@ -94,4 +94,7 @@ public class Folder {
         this.files.add(files);
     }
     
+    public void removeFile(MyFile  file){
+        this.files.remove(file);
+    }
 }
