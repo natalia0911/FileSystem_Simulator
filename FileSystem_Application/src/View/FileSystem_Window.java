@@ -862,6 +862,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateFileActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        String currentPath = jTree.getSelectionPath().toString();
+        MyFile deleteFile = treeController.searchFile(jTree.getSelectionPath().toString());
+        //Folder folder =  treeController.searchFolder(currentPath);
+        //folder.removeFile(deleteFile);
+        Disco.modificarContenido(deleteFile, "");
         deteleNode();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -940,6 +945,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
                     Date date = new Date();
                     file.setModificationDate(formatter.format(date));
+                    Disco.modificarContenido(file, newText);
                     JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
                     jTextArea.setText(file.getText());
                     break;
