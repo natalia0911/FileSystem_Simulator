@@ -988,6 +988,9 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date = new Date();
                 file.setModificationDate(formatter.format(date));
+                
+                Disco.modificarContenido(file, newText);
+                
                 JOptionPane.showMessageDialog(null, "The file was Successfully modified!");
                 jTextArea.setText(file.getText());
                 break;
@@ -1041,6 +1044,11 @@ public class FileSystem_Window extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddFolderActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        String currentPath = jTree.getSelectionPath().toString();
+        MyFile deleteFile = treeController.searchFile(jTree.getSelectionPath().toString());
+        //Folder folder =  treeController.searchFolder(currentPath);
+        //folder.removeFile(deleteFile);
+        Disco.modificarContenido(deleteFile, "");
         deteleNode();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -1070,7 +1078,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "The file was Successfully created!");
 
                 //ESCRIBIR EN DISCO AQUI
-
+                Disco.modificarContenido(newFile, txt); 
             }
             else{
                 JOptionPane.showMessageDialog(null, "You must provide a valid name");
@@ -1088,6 +1096,7 @@ public class FileSystem_Window extends javax.swing.JFrame {
         Disco.inicializarDisco(Integer.parseInt(sectors),Integer.parseInt(sector_size));
         //Disco.createTxtFile();
         //Disco.writeFromJson();
+       
     }//GEN-LAST:event_btnDiskActionPerformed
 
     
